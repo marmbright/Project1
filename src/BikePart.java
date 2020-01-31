@@ -77,6 +77,6 @@ public class BikePart {
      * @return returns a string of strings
      */
     public String toString() {
-        return getPartName() + ",  " + getPartNum() + ", " + getListPrice() + ", " + getSalePrice() + ", " + getOnSale();
+        return getPartName() + ", " + getPartNum() + ", " + getListPrice() + ", " + getSalePrice() + ", " + getOnSale();
     }
 }
