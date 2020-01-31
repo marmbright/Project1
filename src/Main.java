@@ -45,9 +45,8 @@ public class Main {
                 } else if (bpArray[i].getListPrice() < 20.0) {
                     partUnder20.add(bpArray[i]);
                 }
-            }
-            else if(!bpArray[i].getOnSale()){
-                if(bpArray[i].getListPrice() < 20.0){
+            } else if (!bpArray[i].getOnSale()) {
+                if (bpArray[i].getListPrice() < 20.0) {
                     partUnder20.add((bpArray[i]));
                 }
             }
