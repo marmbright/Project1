@@ -1,30 +1,34 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-    private static int partCount;
-
     /**
      * Tester class for BikePart.java
      */
-    public static void main(String[] args) {
-        Scanner uInput = new Scanner(System.in);
+    public static void main(String[] args) throws FileNotFoundException {
+        String filename = "BikeParts.txt";
+        File file = new File(filename);
+        Scanner uInput = new Scanner(file);
+        uInput.useDelimiter("\\Z");
+        System.out.println(uInput.next());
 
-        System.out.println("Enter the number of parts you will be inputting");
-        partCount = uInput.nextInt();
-
-        BikePart[] bpArray = new BikePart[partCount];
+        BikePart[] bpArray = new BikePart[(int) file.length()];
+        bpArray.toString();
+        System.out.println(Arrays.toString(bpArray));
 
         String tempPartName;
         int tempPartNum;
         double tempListPrice;
         double tempSalePrice;
         boolean tempOnSale;
-
-        for (int i = 0; i < partCount; i++) {
+/*
+        for (int i = 0; i < bpArray.length; i++) {
             String[] tempLine = new String[5];
-            System.out.println("Enter the next part...");
             tempLine = uInput.next().split(",");
 
             tempPartName = tempLine[0];
@@ -36,6 +40,8 @@ public class Main {
             BikePart tempPart = new BikePart(tempPartName, tempPartNum, tempListPrice, tempSalePrice, tempOnSale);
             bpArray[i] = tempPart;
         }
+
+
 
         ArrayList<BikePart> partUnder20 = new ArrayList();
         for (int i = 0; i < bpArray.length; i++) {
@@ -56,6 +62,7 @@ public class Main {
         System.out.println("Output:");
         for (int i = 0; i < partUnder20.size(); i++) {
             System.out.println(partUnder20.get(i).toString());
+*/
+
         }
     }
-}
