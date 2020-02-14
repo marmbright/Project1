@@ -1,86 +1,71 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+/*
+Megan Armbright
+Section 1
+I hereby declare upon my word of honor that I have neither given nor received unauthorized help on this work.
+ */
 
 public class BikePart {
 
-    /**
-     * Instance variables of the BikePart class
-     */
-    private String partName;
-    private int partNum;
-    private double listPrice;
-    private double salePrice;
-    private boolean onSale;
+    String partName;
+    String partNumber;
+    double price;
+    double salesPrice;
+    boolean onSale;
+    int quantity;
 
-    /**
-     * Constructor of the BikePart class
-     *
-     * @param partName  instanciates partName
-     * @param partNum   instanciates partNum
-     * @param listPrice instanciates listPrice
-     * @param salePrice instanciates salePrice
-     * @param onSale    instanciates onSale
+    /**this class is to keep inventory of bike parts and their info
+     * @param name This is the name
+     * @param num This acts as the part number
+     * @param price This is the normal price of the item
+     * @param salesPrice This is the price of the item on sale
+     * @param sale This determines whether the item is on sale or not
      */
-    public BikePart(String partName, int partNum, double listPrice, double salePrice, boolean onSale) {
-        this.partName = partName;
-        this.partNum = partNum;
-        this.listPrice = listPrice;
-        this.salePrice = salePrice;
-        this.onSale = onSale;
+    public BikePart (String name, String num, double price, double salesPrice, boolean sale, int quantity){
+        this.partName=name;
+        this.partNumber=num;
+        this.price=price;
+        this.salesPrice=salesPrice;
+        this.onSale=sale;
+        this.quantity=quantity;
     }
 
-    /**
-     * gets part name
-     *
-     * @return returns the part name
-     */
-    public String getPartName() {
-        return partName;
+    private String getPartName (){
+        return this.partName;
+    }
+    private void setPartName(String name){
+        this.partName=name;
+    }
+    private String getPartNumber (){
+        return this.partNumber;
+    }
+    private void setPartNumber(String num) {
+        this.partName = num;
+    }
+    private double getPrice(){
+        return this.price;
+    }
+    private void setPrice(double price){
+        this.price=price;
+    }
+    private double getSalesPrice(){
+        return this.salesPrice;
+    }
+    private void setSalesPrice(double salesPrice){
+        this.salesPrice=salesPrice;
+    }
+    private boolean isOnSale(){
+        return this.onSale;
+    }
+    private void setOnSale(boolean sale){
+        this.onSale=sale;
+    }
+    private int getQuantity(){
+        return this.quantity;
+    }
+    private void setQuantity(int quantity){
+        this.quantity=quantity;
     }
 
-    /**
-     * gets the part number
-     *
-     * @return returns the part number
-     */
-    public int getPartNum() {
-        return partNum;
-    }
 
-    /**
-     * gets the list price
-     *
-     * @return returns the list price
-     */
-    public double getListPrice() {
-        return listPrice;
-    }
 
-    /**
-     * gets the sale price
-     *
-     * @return returns the sale price
-     */
-    public double getSalePrice() {
-        return salePrice;
-    }
-
-    /**
-     * checks if the item is on sale
-     *
-     * @return returns if the item is on sale or not
-     */
-    public boolean getOnSale() {
-        return onSale;
-    }
-
-    /**
-     * converts the arrayList to a string
-     *
-     * @return returns a string of strings
-     */
-    public String toString() {
-        return getPartName() + ", " + getPartNum() + ", " + getListPrice() + ", " + getSalePrice() + ", " + getOnSale();
-    }
 }

@@ -1,68 +1,56 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+/*
+Megan Armbright
+Section 1
+I hereby declare upon my word of honor that I have neither given nor received unauthorized help on this work.
+ */
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Main {
 
     /**
      * Tester class for BikePart.java
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         String filename = "BikeParts.txt";
         File file = new File(filename);
         Scanner uInput = new Scanner(file);
-        uInput.useDelimiter("\\Z");
-        System.out.println(uInput.next());
 
-        BikePart[] bpArray = new BikePart[(int) file.length()];
-        bpArray.toString();
-        System.out.println(Arrays.toString(bpArray));
+        ArrayList<String> bpArray = new ArrayList<>();
+        while (uInput.hasNext()) {
+            String line = uInput.nextLine();
+            bpArray.addAll(Arrays.asList(line.split(" ")));
+        }
 
         String tempPartName;
-        int tempPartNum;
-        double tempListPrice;
-        double tempSalePrice;
-        boolean tempOnSale;
-/*
-        for (int i = 0; i < bpArray.length; i++) {
-            String[] tempLine = new String[5];
-            tempLine = uInput.next().split(",");
+        String tempPartNum;
+        String tempListPrice;
+        String tempSalePrice;
+        String tempOnSale;
 
-            tempPartName = tempLine[0];
-            tempPartNum = Integer.parseInt(tempLine[1]);
-            tempListPrice = Double.parseDouble(tempLine[2]);
-            tempSalePrice = Double.parseDouble(tempLine[3]);
-            tempOnSale = Boolean.parseBoolean(tempLine[4]);
+        for (String tempLine : bpArray) {
 
-            BikePart tempPart = new BikePart(tempPartName, tempPartNum, tempListPrice, tempSalePrice, tempOnSale);
-            bpArray[i] = tempPart;
+            tempPartName = tempLine;
+            tempPartNum = tempLine;
+            tempListPrice = tempLine;
+            tempSalePrice = tempLine;
+            tempOnSale = tempLine;
+
+            ArrayList<String> bikeParts = new ArrayList<>();
+            bikeParts.add(tempPartName);
+            bikeParts.add(tempPartNum);
+            bikeParts.add(tempListPrice);
+            bikeParts.add(tempSalePrice);
+            bikeParts.add(tempOnSale);
+
         }
 
-
-
-        ArrayList<BikePart> partUnder20 = new ArrayList();
-        for (int i = 0; i < bpArray.length; i++) {
-            if (bpArray[i].getOnSale()) {
-                if (bpArray[i].getSalePrice() < 20.0) {
-                    partUnder20.add(bpArray[i]);
-                } else if (bpArray[i].getListPrice() < 20.0) {
-                    partUnder20.add(bpArray[i]);
-                }
-            } else if (!bpArray[i].getOnSale()) {
-                if (bpArray[i].getListPrice() < 20.0) {
-                    partUnder20.add((bpArray[i]));
-                }
-            }
-        }
-
-        System.out.println();
-        System.out.println("Output:");
-        for (int i = 0; i < partUnder20.size(); i++) {
-            System.out.println(partUnder20.get(i).toString());
-*/
-
+        ArrayList<ArrayList<String>> partUnder25 = new ArrayList<>();
+        while (bpArray.contains('2')) partUnder25.add(bpArray);
+        try (PrintWriter writer = new PrintWriter("PartUnder25.txt", StandardCharsets.UTF_8)) {
+            for (String bp : bpArray)
+                writer.println(bp);
         }
     }
+}
