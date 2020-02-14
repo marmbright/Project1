@@ -9,48 +9,66 @@ import java.util.*;
 
 public class Main {
 
-    /**
-     * Tester class for BikePart.java
-     */
     public static void main(String[] args) throws IOException {
-        String filename = "BikeParts.txt";
-        File file = new File(filename);
-        Scanner uInput = new Scanner(file);
+        Scanner input= new Scanner( System.in );
 
-        ArrayList<String> bpArray = new ArrayList<>();
-        while (uInput.hasNext()) {
-            String line = uInput.nextLine();
-            bpArray.addAll(Arrays.asList(line.split(" ")));
+
+        System.out.println("Enter Input Filename: ");
+        String readfile = input.next();
+
+        System.out.println("Enter Max Cost: ");
+        double maxCost=input.nextInt();
+
+        System.out.println("Enter Output Filename: ");
+        String fileOut= input.next();
+
+        FileWriter myWriter=new FileWriter( fileOut );
+        ArrayList<BikePart> list=new ArrayList<>(  );
+
+        try {
+            toBikeArray( readfile, list );
+            for (int i=0; i<list.size();i++){
+                BikePart temp=list.get( i );
+                if (temp.onSale){
+                    if (temp.salesPrice<=maxCost){
+                        myWriter.write( temp.partName +" "+ temp.partNumber+" "+ temp.salesPrice+" "+ temp.onSale +"\n");
+                    }
+                }else{
+                    if (temp.price<=maxCost){
+                        myWriter.write( temp.partName +" "+ temp.partNumber+" "+ temp.salesPrice+" "+ temp.onSale +"\n");
+                    }
+                }
+            }
+            myWriter.close();
+            System.out.println(readfile+" successfully processed");
+
+        }catch (FileNotFoundException E){
+            System.out.println("File not found: try again");
         }
 
-        String tempPartName;
-        String tempPartNum;
-        String tempListPrice;
-        String tempSalePrice;
-        String tempOnSale;
+    }
 
-        for (String tempLine : bpArray) {
-
-            tempPartName = tempLine;
-            tempPartNum = tempLine;
-            tempListPrice = tempLine;
-            tempSalePrice = tempLine;
-            tempOnSale = tempLine;
-
-            ArrayList<String> bikeParts = new ArrayList<>();
-            bikeParts.add(tempPartName);
-            bikeParts.add(tempPartNum);
-            bikeParts.add(tempListPrice);
-            bikeParts.add(tempSalePrice);
-            bikeParts.add(tempOnSale);
-
+    /**converts inputted strings into the bike parts item
+     *
+     * @param item normal string input to be converted
+     * @return bike part class
+     */
+    private static BikePart toBikeParts(String item){
+        BikePart newPart= new BikePart( "0","0",0,0, false,0 );
+        String [] itemInfo=item.split( "," );
+        newPart.partName=itemInfo[0];
+        newPart.partNumber=itemInfo[1];
+        newPart.price=Double.parseDouble( itemInfo[2]);
+        newPart.salesPrice=Double.parseDouble( itemInfo[3] );
+        newPart.onSale=Boolean.parseBoolean( itemInfo[4] );
+        return newPart;
+    }
+    private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+        File fileIn=new File( fileName );
+        Scanner input= new Scanner( fileIn );
+        while (input.hasNextLine()){
+            bikeparts.add(  toBikeParts( input.nextLine() ));
         }
 
-        ArrayList<ArrayList<String>> partUnder25 = new ArrayList<>();
-        while (bpArray.contains('2')) partUnder25.add(bpArray);
-        try (PrintWriter writer = new PrintWriter("PartUnder25.txt", StandardCharsets.UTF_8)) {
-            for (String bp : bpArray)
-                writer.println(bp);
-        }
     }
 }

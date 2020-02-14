@@ -5,5 +5,9 @@ public class Warehouse {
     public int invOnSale;
     public double price;
 
-    public Warehouse( )
+    public double getPrice(){
+
+    }
+
+
 }

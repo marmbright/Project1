@@ -4,7 +4,7 @@ Section 1
 I hereby declare upon my word of honor that I have neither given nor received unauthorized help on this work.
  */
 
-public class BikePart {
+public class BikePart{
 
     String partName;
     String partNumber;
