@@ -22,7 +22,7 @@ public class Main {
         System.out.println("Enter Output Filename: ");
         String fileOut= input.next();
 
-        FileWriter myWriter=new FileWriter( fileOut );
+        FileWriter myWriter=new FileWriter( fileOut, true );
         ArrayList<BikePart> list=new ArrayList<>(  );
 
         try {
