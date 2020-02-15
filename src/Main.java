@@ -28,20 +28,20 @@ public class Main {
         try {
             toBikeArray( readfile, list );
 
-                }for (int i=0; i<list.size();i++){
-                    BikePart temp=list.get( i );
-                    if (temp.onSale){
-                        if (temp.salesPrice<=maxCost){
-                            myWriter.write( temp.partName +" "+ temp.partNumber+" "+ temp.salesPrice+" "+ temp.onSale +"\n");
+                for (int i=0; i<list.size();i++) {
+                    BikePart temp = list.get( i );
+                    if (temp.onSale) {
+                        if (temp.salesPrice <= maxCost) {
+                            myWriter.write( temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + "\n" );
                         }
-                    }else{
-                        if (temp.price<=maxCost){
-                            myWriter.write( temp.partName +" "+ temp.partNumber+" "+ temp.salesPrice+" "+ temp.onSale +"\n");
+                    } else {
+                        if (temp.price <= maxCost) {
+                            myWriter.write( temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + "\n" );
                         }
-            }
-            myWriter.close();
-            System.out.println(readfile+" successfully processed");
-
+                    }
+                    myWriter.close();
+                    System.out.println( readfile + " successfully processed" );
+                }
         }catch (FileNotFoundException E){
             System.out.println("File not found: try again");
         }
