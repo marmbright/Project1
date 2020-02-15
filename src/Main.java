@@ -61,6 +61,7 @@ public class Main {
         newPart.price=Double.parseDouble( itemInfo[2]);
         newPart.salesPrice=Double.parseDouble( itemInfo[3] );
         newPart.onSale=Boolean.parseBoolean( itemInfo[4] );
+        newPart.quantity=Integer.parseInt( itemInfo[5] );
         return newPart;
     }
     private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
