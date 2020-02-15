@@ -5,7 +5,7 @@ public class Test {
         Scanner in = new Scanner( System.in );
         boolean quitFlag = false;
 
-        while (quitFlag == false){
+        while (!quitFlag){
             System.out.println("Select your option: \nReadFile\n" +
                                 "Enter BikePart\nSell BikePart\n" +
                                 "Display BikePart\nSortBy Name\n" +
