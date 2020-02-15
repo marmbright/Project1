@@ -21,26 +21,26 @@ public class Main {
         System.out.println("Enter Output Filename: ");
         String fileOut= input.next();
 
-        FileWriter myWriter=new FileWriter( fileOut, true );
+        PrintWriter myWriter= new PrintWriter( fileOut );
         ArrayList<BikePart> list=new ArrayList<>(  );
 
         try {
             toBikeArray( readfile, list );
 
                 for (int i=0; i<list.size();i++) {
-                    BikePart temp = list.get(i);
+                    BikePart temp = list.get( i );
                     if (temp.onSale) {
                         if (temp.salesPrice <= maxCost) {
-                            myWriter.write(temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + "\n");
+                            myWriter.println( temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + " " +temp.quantity );
                         }
                     } else {
                         if (temp.price <= maxCost) {
-                            myWriter.write(temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + "\n");
+                            myWriter.println( temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + " " +temp.quantity);
                         }
                     }
-                    myWriter.close();
+                }myWriter.close();
                     System.out.println(readfile + " successfully processed");
-                }
+
         }catch (FileNotFoundException E){
             System.out.println("File not found: try again");
         }
