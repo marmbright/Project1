@@ -70,5 +70,19 @@ public class Main {
             bikeparts.add(  toBikeParts( input.nextLine() ));
         }
 
+        for (int i=0;i<bikeparts.size()-1;i++){
+            BikePart temp=bikeparts.get( i );
+            for (int j=1;j<bikeparts.size();j++){
+                BikePart temp2=bikeparts.get( j );
+                if (temp.partNumber.equals( temp2.partNumber )){
+                    temp.quantity+=temp2.quantity;
+                    temp.price=temp2.price;
+                    temp.salesPrice=temp2.salesPrice;
+                    temp.onSale=temp2.onSale;
+                    bikeparts.set( i,temp );
+                }
+            }
+        }
+
     }
 }
