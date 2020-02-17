@@ -19,12 +19,12 @@ public class Test {
             Scanner in = new Scanner(System.in);
             ArrayList<BikePart> list = new ArrayList<>();
 
-            File yourFile = new File("warehouseDB.txt");
-            yourFile.createNewFile(); // if file already exists will do nothing
-            FileOutputStream oFile = new FileOutputStream(yourFile, false);
+            //File yourFile = new File("warehouseDB.txt");
+            //yourFile.createNewFile(); // if file already exists will do nothing
+            //FileOutputStream oFile = new FileOutputStream(yourFile, false);
 
             toBikeArray("warehouseDB.txt", list);
-            clearTheFile();
+            //clearTheFile();
             // System.out.println(list.get(1).quantity);
 
             boolean quitFlag = false;
@@ -242,6 +242,7 @@ public class Test {
                         temp.price = temp2.price;
                         temp.salesPrice = temp2.salesPrice;
                         temp.onSale = temp2.onSale;
+                        bikeparts.remove(i);
                         bikeparts.set(i, temp);
                     }
 
