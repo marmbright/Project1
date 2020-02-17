@@ -53,18 +53,13 @@ public class Test {
 
 
                 } else if (user_input.equals("Read File")) {
-                    boolean readFileFlag = false;
-                    while (!readFileFlag) {
                         System.out.println("Please enter your inventory file name: ");
 
                         String invFileName = in.nextLine();
 
-                        toBikeArray(invFileName, list);
+                        updateBikeArray(invFileName, list);
 
                         System.out.println(invFileName + " successfully processed");
-
-                        readFileFlag = true;
-                    }
 
 
                 } else if (user_input.equals("Enter BikePart")) {
@@ -214,27 +209,82 @@ public class Test {
     /**
      * Creates array from toBikePart
      * @param fileName reads from file
-     * @param bikeparts ArrayList
+     * @param warehouseArray ArrayList
      * @throws FileNotFoundException throws exception
      */
-    private static void updateBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+    private static void updateBikeArray(String fileName, ArrayList<BikePart> warehouseArray) throws FileNotFoundException {
         // We first have an inventory file that we'll be reading into a BikePart Array
-        // We then have a BikePart Array from the pre-existing file
+        // This code creates our temporary inventory ArrayList of BikeParts
+        File fileIn = new File(fileName);
+        Scanner input = new Scanner(fileIn);
+        ArrayList<BikePart> invArray = new ArrayList<>();
+        while (input.hasNextLine()) {
+            invArray.add(toBikeParts(input.nextLine()));
+        }
+        // We're going to create an array list here that we'll add items to in the future so we can eventually add them to
+        // our warehouse. This is done so that we don't add elements in the moment of our query and confuse
+        // its idea of how big the warehouse is
+        ArrayList<BikePart> elementsToAdd = new ArrayList<>();
 
-        //We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
-        //If any item in inventory array matches with an item in the existing array, all we do is updates non-unique
-            //attributes and sum both quantities
-        //If any item in inventory array doesn't match up with any item in the existing array, we simply add it to the
-            //existing array
+
+        // We then have a BikePart Array from the pre-existing file that can be empty
+        boolean isEmpty = false;
+        if (warehouseArray.size() == 0){
+            isEmpty = true;
+        }
+        // This is the parameter "warehouseArray" that we're already asking for in this method
+
+        // If there are no elements in the warehouse, we simply add each element in the invArray to the warehouseArray
+        if (isEmpty){
+            for (int i = 0; i < invArray.size(); i++){
+                warehouseArray.add(invArray.get(i));
+            }
+        } else { // If there are elements in the warehouse:
+            // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
+
+            // Select each item in our inventory class that we're comparing with each item in the existing array
+            for (int i = 0; i < invArray.size(); i++) { //because the first element starts at 0, the last item is at 'n'. So, we should
+                //stop looping when we end with index 'n'. We do this by setting our condition
+                //to have 'i' be less than the size of the Array which is equal to n+1
+                // We set up a temporary bikepart object of the inventory bikepart we're looking at so we can compare it so that of each warehouse bikepart
+                BikePart invBikePart = invArray.get(i);
+                // We're going to set this boolean so that if this BikePart doesn't already exist, we can just add it later
+                boolean doesExist = false;
+                for (int j = 0; j < warehouseArray.size(); j++) {
+                    // We set up a temporary bikepart object of the warehouse bikepart we're looking at so we can compare it to the inventory bikepart at hand
+                    BikePart wareBikePart = warehouseArray.get(j);
+                    // We compare the inventory BikePart with the warehouse BikePart
+                    if (wareBikePart.partNumber.equals(invBikePart.partNumber)) {
+                        doesExist = true;
+                        wareBikePart.quantity += invBikePart.quantity;
+                        wareBikePart.price = invBikePart.price;
+                        wareBikePart.salesPrice = invBikePart.salesPrice;
+                        wareBikePart.onSale = invBikePart.onSale;
+                    }
+                }
+                if (doesExist == false) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
+                    elementsToAdd.add(invBikePart);
+
+                }
 
 
-        // This is Sandbox code below
+            }
+        }
+        // This is where we add the new BikeParts that we didn't add in the moment
+        for (int i = 0; i < elementsToAdd.size(); i++) {
+            warehouseArray.add(elementsToAdd.get(i));
+        }
+
+
+
+
+        // This is Alex's code that he made before this version
         //Replace with similar code, currently the quantities are getting doubled when read in
-        /*if (bikeparts.size() > 0) {
-            for (int i = 0; i < bikeparts.size() - 1; i++) { //if list is empty, bikepart.size() is 0, then the condition is false and the for loop doesn't start
-                BikePart temp = bikeparts.get(i);
-                for (int j = 1; j < bikeparts.size(); j++) {
-                    BikePart temp2 = bikeparts.get(j);
+        /*if (warehouseArray.size() > 0) {
+            for (int i = 0; i < warehouseArray.size() - 1; i++) { //if list is empty, bikepart.size() is 0, then the condition is false and the for loop doesn't start
+                BikePart temp = warehouseArray.get(i);
+                for (int j = 1; j < warehouseArray.size(); j++) {
+                    BikePart temp2 = warehouseArray.get(j);
                     if (temp.partNumber.equals(temp2.partNumber)) {
                         System.out.println(temp.quantity);
                         temp.quantity = temp.quantity + temp2.quantity;
@@ -243,9 +293,9 @@ public class Test {
                         temp.salesPrice = temp2.salesPrice;
                         temp.onSale = temp2.onSale;
 
-                        //bikeparts.remove(j);
-                        //bikeparts.add(i, temp);
-                        //bikeparts.remove(i);
+                        //warehouseArray.remove(j);
+                        //warehouseArray.add(i, temp);
+                        //warehouseArray.remove(i);
                     }
                     }
 
