@@ -40,6 +40,7 @@ public class Test {
                     PrintWriter out = new PrintWriter("warehouseDB.txt");
                     for (int i = 0; i < list.size(); i++) {
                         BikePart temp = list.get(i);
+                        System.out.println("Quit message:" + list.get(i).quantity);
                         out.println(temp.partName + "," +
                                     temp.partNumber + "," +
                                     temp.price + "," +
@@ -226,6 +227,9 @@ public class Test {
      * @param bikeparts ArrayList
      * @throws FileNotFoundException throws exception
      */
+    private static void updateBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+
+    }
     private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
         File fileIn = new File(fileName);
         Scanner input = new Scanner(fileIn);
@@ -233,21 +237,27 @@ public class Test {
             bikeparts.add(toBikeParts(input.nextLine()));
         }
         //Replace with similar code, currently the quantities are getting doubled when read in
-            for (int i = 0; i < bikeparts.size() - 1; i++) {
+        /*if (bikeparts.size() > 0) {
+            for (int i = 0; i < bikeparts.size() - 1; i++) { //if list is empty, bikepart.size() is 0, then the condition is false and the for loop doesn't start
                 BikePart temp = bikeparts.get(i);
                 for (int j = 1; j < bikeparts.size(); j++) {
                     BikePart temp2 = bikeparts.get(j);
                     if (temp.partNumber.equals(temp2.partNumber)) {
+                        System.out.println(temp.quantity);
                         temp.quantity = temp.quantity + temp2.quantity;
+                        System.out.println(temp.quantity);
                         temp.price = temp2.price;
                         temp.salesPrice = temp2.salesPrice;
                         temp.onSale = temp2.onSale;
-                        bikeparts.remove(i);
-                        bikeparts.set(i, temp);
+
+                        //bikeparts.remove(j);
+                        //bikeparts.add(i, temp);
+                        //bikeparts.remove(i);
+                    }
                     }
 
                 }
-            }
+            } */
 
     }
 
