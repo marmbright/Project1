@@ -28,7 +28,7 @@ public class Test {
             // System.out.println(list.get(1).quantity);
 
             boolean quitFlag = false;
-            while (quitFlag == false) {
+            while (!quitFlag) {
                 System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
                         "Quit");
@@ -53,7 +53,7 @@ public class Test {
 
                 } else if (user_input.equals("Read File")) {
                     boolean readFileFlag = false;
-                    while (readFileFlag == false) {
+                    while (!readFileFlag) {
                         System.out.println("Please enter your inventory file name: ");
 
                         String invFileName = in.nextLine();
@@ -67,16 +67,18 @@ public class Test {
                         readFileFlag = true;
 
                         //test that it works
-                        for (int i = 0; i < list.size(); i++){
+                        /*for (int i = 0; i < list.size(); i++){
                             System.out.println(list.get(i).quantity);
                         }
+
+                         */
 
                     }
 
 
                 } else if (user_input.equals("Enter BikePart")) {
                     boolean enterBikePartFlag = false;
-                    while (enterBikePartFlag == false) {
+                    while (!enterBikePartFlag) {
                         System.out.println("Please enter your bike part's attributes: ");
 
                         System.out.println("Name: ");
@@ -107,7 +109,7 @@ public class Test {
                                 exists = true;
                             }
                         }
-                        if (exists == false) {
+                        if (!exists) {
                             list.add(tempPart);
                             System.out.println("BikePart successfully added");
                             exists = true;
@@ -120,8 +122,8 @@ public class Test {
 
 
                 } else if (user_input.equals("Sell BikePart")) {
-                    Boolean sellBikePartFlag = false;
-                    while (sellBikePartFlag == false) {
+                    boolean sellBikePartFlag = false;
+                    while (!sellBikePartFlag) {
                         System.out.println("Please enter bike part number: ");
                         String enterNumber = in.nextLine();
 
@@ -151,7 +153,6 @@ public class Test {
                                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                                 Date date = new Date();
                                 System.out.println(formatter.format(date));
-
                                 temp.quantity -= enterSellQuantity;
 
                                 sellBikePartFlag = true;
@@ -174,7 +175,7 @@ public class Test {
                     for (int i = 0; i < list.size(); i++) {
                         BikePart temp = list.get(i);
 
-                        System.out.println(temp.partName.equals(enterName));
+                        //System.out.println(temp.partName.equals(enterName));
                         if (temp.partName.equals(enterName)) { ;
                             if (temp.onSale) {
                                 System.out.println("Part name: " + temp.partName + "\n" +
@@ -231,12 +232,13 @@ public class Test {
         while (input.hasNextLine()) {
             bikeparts.add(toBikeParts(input.nextLine()));
         }
+        //Replace with similar code, currently the quantities are getting doubled when read in
             for (int i = 0; i < bikeparts.size() - 1; i++) {
                 BikePart temp = bikeparts.get(i);
                 for (int j = 1; j < bikeparts.size(); j++) {
                     BikePart temp2 = bikeparts.get(j);
                     if (temp.partNumber.equals(temp2.partNumber)) {
-                        temp.quantity += temp2.quantity;
+                        temp.quantity = temp.quantity + temp2.quantity;
                         temp.price = temp2.price;
                         temp.salesPrice = temp2.salesPrice;
                         temp.onSale = temp2.onSale;
