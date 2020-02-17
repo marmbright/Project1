@@ -234,38 +234,5 @@ public class Test {
             }
         }
     }
-    private static void sortNum(ArrayList<BikePart> bikeparts){
-        ArrayList<BikePart> temp = bikeparts;
-        ArrayList<String> sortNum= new ArrayList<>(  );
-        for (int i=0;i<temp.size(); i++){
-            sortNum.add(  temp.get( i ).partNumber);
-        }
 
-        Collections.sort( sortNum );
-        for (int i=0;i<sortNum.size();i++){
-            for (int j=0;j<bikeparts.size();j++){
-                BikePart tempPart = bikeparts.get( j );
-                if (sortNum.get(i).equals( tempPart.partNumber )){
-                    System.out.println( tempPart.partName + "," + tempPart.partNumber + "," + tempPart.salesPrice + "," + tempPart.onSale + "," +tempPart.quantity );
-                }
-            }
-        }
-    }
-    private static void sortName(ArrayList<BikePart> bikeparts){
-        ArrayList<BikePart> temp = bikeparts;
-        ArrayList<String> sortName= new ArrayList<>(  );
-        for (int i=0;i<temp.size(); i++){
-            sortName.add(  temp.get( i ).partName);
-        }
-
-        Collections.sort( sortName );
-        for (int i=0;i<sortName.size();i++){
-            for (int j=0;j<bikeparts.size();j++){
-                BikePart tempPart = bikeparts.get( j );
-                if (sortName.get(i).equals( tempPart.partName )){
-                    System.out.println( tempPart.partName + "," + tempPart.partNumber + "," + tempPart.salesPrice + "," + tempPart.onSale + "," +tempPart.quantity );
-                }
-            }
-        }
-    }
 }
