@@ -59,21 +59,11 @@ public class Test {
 
                         String invFileName = in.nextLine();
 
-                        //ArrayList<BikePart> temp = new ArrayList<BikePart>();
-
                         toBikeArray(invFileName, list);
 
                         System.out.println(invFileName + " successfully processed");
 
                         readFileFlag = true;
-
-                        //test that it works
-                        /*for (int i = 0; i < list.size(); i++){
-                            System.out.println(list.get(i).quantity);
-                        }
-
-                         */
-
                     }
 
 
@@ -228,14 +218,17 @@ public class Test {
      * @throws FileNotFoundException throws exception
      */
     private static void updateBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+        // We first have an inventory file that we'll be reading into a BikePart Array
+        // We then have a BikePart Array from the pre-existing file
 
-    }
-    private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
-        File fileIn = new File(fileName);
-        Scanner input = new Scanner(fileIn);
-        while (input.hasNextLine()) {
-            bikeparts.add(toBikeParts(input.nextLine()));
-        }
+        //We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
+        //If any item in inventory array matches with an item in the existing array, all we do is updates non-unique
+            //attributes and sum both quantities
+        //If any item in inventory array doesn't match up with any item in the existing array, we simply add it to the
+            //existing array
+
+
+        // This is Sandbox code below
         //Replace with similar code, currently the quantities are getting doubled when read in
         /*if (bikeparts.size() > 0) {
             for (int i = 0; i < bikeparts.size() - 1; i++) { //if list is empty, bikepart.size() is 0, then the condition is false and the for loop doesn't start
@@ -258,6 +251,14 @@ public class Test {
 
                 }
             } */
+    }
+    private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+        File fileIn = new File(fileName);
+        Scanner input = new Scanner(fileIn);
+        while (input.hasNextLine()) {
+            bikeparts.add(toBikeParts(input.nextLine()));
+        }
+
 
     }
 
