@@ -152,9 +152,9 @@ public class Test {
                     }
 
                 } else if (user_input.equals("Sort By Name")) {
-
+                    sortNum(list);
                 } else if (user_input.equals("Sort By Number")) {
-
+                    sortName(list);
                 }
 
 
