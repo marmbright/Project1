@@ -1,10 +1,7 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,8 +11,14 @@ public class Test {
             Scanner in = new Scanner(System.in);
 
             ArrayList<BikePart> list = new ArrayList<>();
-            File warehouseDB = new File("warehouseDB.txt");
+
+            File yourFile = new File("warehouseDB.txt");
+            yourFile.createNewFile(); // if file already exists will do nothing
+            FileOutputStream oFile = new FileOutputStream(yourFile, false);
+
             toBikeArray("warehouseDB.txt", list);
+            clearTheFile();
+            // System.out.println(list.get(1).quantity);
 
             boolean quitFlag = false;
             while (quitFlag == false) {
@@ -25,19 +28,20 @@ public class Test {
                 String user_input = in.nextLine();
 
 
-
                 if (user_input.equals("Quit")) {
                     quitFlag = true;
                     PrintWriter out = new PrintWriter("warehouseDB.txt");
-                    for (int i=0; i<list.size();i++) {
-                        BikePart temp = list.get( i );
-                        out.println( temp.partName + " " + temp.partNumber + " " + temp.salesPrice + " " + temp.onSale + " " +temp.quantity );
+                    for (int i = 0; i < list.size(); i++) {
+                        BikePart temp = list.get(i);
+                        out.println(temp.partName + "," +
+                                    temp.partNumber + "," +
+                                    temp.price + "," +
+                                    temp.salesPrice + "," +
+                                    temp.onSale + "," +
+                                    temp.quantity);
                     }
                     out.close();
                     System.out.println("warehouseDB.txt file successfully processed");
-
-
-
 
 
                 } else if (user_input.equals("Read File")) {
@@ -54,6 +58,12 @@ public class Test {
                         System.out.println(invFileName + " successfully processed");
 
                         readFileFlag = true;
+
+                        //test that it works
+                        for (int i = 0; i < list.size(); i++){
+                            System.out.println(list.get(i).quantity);
+                        }
+
                     }
 
 
@@ -78,7 +88,7 @@ public class Test {
                         BikePart tempPart = new BikePart(enterName, enterNumber, enterPrice, enterSalesPrice, enterOnSale, enterQuantity);
 
                         boolean exists = false;
-                        for (int i = 0; i < list.size() - 1; i++) {
+                        for (int i = 0; i < list.size(); i++) {
                             BikePart temp = list.get(i);
                             if (temp.partNumber.equals(tempPart.partNumber)) {
                                 temp.quantity += tempPart.quantity;
@@ -89,28 +99,32 @@ public class Test {
                                 list.set(i, temp);
                                 exists = true;
                             }
-                            if (exists == false) {
-                                list.add(tempPart);
-
-                                exists = true;
-                            }
                         }
+                        if (exists == false) {
+                            list.add(tempPart);
+                            System.out.println("BikePart successfully added");
+                            exists = true;
+                        }
+
                         enterBikePartFlag = true;
                         System.out.println();
+                        in.nextLine();
                     }
 
 
                 } else if (user_input.equals("Sell BikePart")) {
-                    System.out.println("Please enter bike part number: ");
-                    String enterNumber = in.nextLine();
+                    Boolean sellBikePartFlag = false;
+                    while (sellBikePartFlag == false) {
+                        System.out.println("Please enter bike part number: ");
+                        String enterNumber = in.nextLine();
 
-                    System.out.println("Please enter the amount to sell: ");
-                    int enterSellQuantity = in.nextInt();
+                        System.out.println("Please enter the amount to sell: ");
+                        int enterSellQuantity = in.nextInt();
 
-                    for (int i = 0; i < list.size() - 1; i++) {
-                        BikePart temp = list.get(i);
+                        for (int i = 0; i < list.size(); i++) {
+                            BikePart temp = list.get(i);
 
-                        if (temp.partNumber.equals(enterNumber)) {
+                            if (temp.partNumber.equals(enterNumber)) {
 
                             /*if ((temp.quantity - enterSellQuantity) < 0) {
                                 System.out.println("Error: can't sell more bike parts than there are available.\n" +
@@ -119,33 +133,42 @@ public class Test {
                                 temp.quantity -= enterSellQuantity;
                             }
                              */
-                            if (temp.onSale) {
-                                System.out.println(temp.partName + "," +
-                                        temp.salesPrice);
-                            } else {
-                                System.out.println(temp.partName + "," +
-                                        temp.price);
+                                if (temp.onSale) {
+                                    System.out.println(temp.partName + "," +
+                                            temp.salesPrice);
+                                } else {
+                                    System.out.println(temp.partName + "," +
+                                            temp.price);
+                                }
+
+                                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                Date date = new Date();
+                                System.out.println(formatter.format(date));
+
+                                temp.quantity -= enterSellQuantity;
+
+                                sellBikePartFlag = true;
                             }
-
-                            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                            Date date = new Date();
-                            System.out.println(formatter.format(date));
-
-                            temp.quantity -= enterSellQuantity;
-                        } else {
-                            System.out.println("Bike part does not exist.");
                         }
-
+                        if (!sellBikePartFlag) {
+                            System.out.println("Bike part does not exist.");
+                            sellBikePartFlag = true;
+                        }
+                        in.nextLine();
                     }
+
+
+
 
                 } else if (user_input.equals("Display BikePart")) {
                     System.out.println("Please enter bike part name: ");
                     String enterName = in.nextLine();
 
-                    for (int i = 0; i < list.size() - 1; i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         BikePart temp = list.get(i);
 
-                        if (temp.partName.equals(enterName)) {
+                        System.out.println(temp.partName.equals(enterName));
+                        if (temp.partName.equals(enterName)) { ;
                             if (temp.onSale) {
                                 System.out.println("Part name: " + temp.partName + "\n" +
                                         "Current price: " + temp.salesPrice);
@@ -157,11 +180,12 @@ public class Test {
                     }
 
                 } else if (user_input.equals("Sort By Name")) {
-                    sortNum(list);
-                } else if (user_input.equals("Sort By Number")) {
                     sortName(list);
+                } else if (user_input.equals("Sort By Number")) {
+                    sortNum(list);
+                } else{
+                    System.out.println("Please enter a valid command");
                 }
-
 
             }
         } catch (FileNotFoundException e) {
@@ -179,6 +203,7 @@ public class Test {
         newPart.price = Double.parseDouble(itemInfo[2]);
         newPart.salesPrice = Double.parseDouble(itemInfo[3]);
         newPart.onSale = Boolean.parseBoolean(itemInfo[4]);
+        newPart.quantity = Integer.parseInt(itemInfo[5]);
         return newPart;
     }
 
@@ -188,20 +213,21 @@ public class Test {
         while (input.hasNextLine()) {
             bikeparts.add(toBikeParts(input.nextLine()));
         }
-        for (int i = 0; i < bikeparts.size() - 1; i++) {
-            BikePart temp = bikeparts.get(i);
-            for (int j = 1; j < bikeparts.size(); j++) {
-                BikePart temp2 = bikeparts.get(j);
-                if (temp.partNumber.equals(temp2.partNumber)) {
-                    temp.quantity += temp2.quantity;
-                    temp.price = temp2.price;
-                    temp.salesPrice = temp2.salesPrice;
-                    temp.onSale = temp2.onSale;
-                    bikeparts.set(i, temp);
-                }
+            for (int i = 0; i < bikeparts.size() - 1; i++) {
+                BikePart temp = bikeparts.get(i);
+                for (int j = 1; j < bikeparts.size(); j++) {
+                    BikePart temp2 = bikeparts.get(j);
+                    if (temp.partNumber.equals(temp2.partNumber)) {
+                        temp.quantity += temp2.quantity;
+                        temp.price = temp2.price;
+                        temp.salesPrice = temp2.salesPrice;
+                        temp.onSale = temp2.onSale;
+                        bikeparts.set(i, temp);
+                    }
 
+                }
             }
-        }
+
     }
 
 
@@ -228,15 +254,29 @@ public class Test {
         for (int i=0;i<temp.size(); i++){
             sortName.add(  temp.get( i ).partName);
         }
+        System.out.println(sortName.size());
 
         Collections.sort( sortName );
         for (int i=0;i<sortName.size();i++){
+            BikePart tempPart = bikeparts.get( i );
             for (int j=0;j<bikeparts.size();j++){
-                BikePart tempPart = bikeparts.get( j );
-                if (sortName.get(i).equals( tempPart.partName )){
-                    System.out.println( tempPart.partName + "," + tempPart.partNumber + "," + tempPart.salesPrice + "," + tempPart.onSale + "," +tempPart.quantity );
+               // BikePart tempPart = bikeparts.get( i );
+                if (sortName.get(j).equals( tempPart.partName )){
+                    System.out.println( tempPart.partName + ","   +
+                                        tempPart.partNumber + "," +
+                                        tempPart.price + "," +
+                                        tempPart.salesPrice + "," +
+                                        tempPart.onSale + "," +
+                                        tempPart.quantity );
                 }
             }
         }
+    }
+    public static void clearTheFile() throws IOException{
+        FileWriter fwOb = new FileWriter("warehouseDB.txt", false);
+        PrintWriter pwOb = new PrintWriter(fwOb, false);
+        pwOb.flush();
+        pwOb.close();
+        fwOb.close();
     }
 }
