@@ -91,6 +91,7 @@ public class Test {
                             }
                             if (exists == false) {
                                 list.add(tempPart);
+
                                 exists = true;
                             }
                         }
