@@ -5,11 +5,18 @@ import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Tester class for Warehouse and BikeParts
+ */
 public class Test {
+
+    /**
+     * Main method for the tester class
+     * @throws IOException throws exception
+     */
     public static void main(String[] args) throws IOException {
         try {
             Scanner in = new Scanner(System.in);
-
             ArrayList<BikePart> list = new ArrayList<>();
 
             File yourFile = new File("warehouseDB.txt");
@@ -195,6 +202,11 @@ public class Test {
         }
     }
 
+    /**
+     * Creates a bike part from input
+     * @param item String formatted with commas
+     * @return bike part
+     */
     private static BikePart toBikeParts(String item) {
         BikePart newPart = new BikePart("0", "0", 0, 0, false, 0);
         String[] itemInfo = item.split(",");
@@ -207,6 +219,12 @@ public class Test {
         return newPart;
     }
 
+    /**
+     * Creates array from toBikePart
+     * @param fileName reads from file
+     * @param bikeparts ArrayList
+     * @throws FileNotFoundException throws exception
+     */
     private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
         File fileIn = new File(fileName);
         Scanner input = new Scanner(fileIn);
@@ -230,7 +248,10 @@ public class Test {
 
     }
 
-
+    /**
+     * Sorts bikeParts by numerical order
+     * @param bikeparts ArrayList
+     */
     private static void sortNum(ArrayList<BikePart> bikeparts){
         ArrayList<BikePart> temp = bikeparts;
         ArrayList<String> sortNum= new ArrayList<>(  );
@@ -248,6 +269,11 @@ public class Test {
             }
         }
     }
+
+    /**
+     * Sorts BikeParts by name
+     * @param bikeparts ArrayList
+     */
     private static void sortName(ArrayList<BikePart> bikeparts){
         ArrayList<BikePart> temp = bikeparts;
         ArrayList<String> sortName= new ArrayList<>(  );
@@ -272,6 +298,11 @@ public class Test {
             }
         }
     }
+
+    /**
+     * Clears the file
+     * @throws IOException throws exception
+     */
     public static void clearTheFile() throws IOException{
         FileWriter fwOb = new FileWriter("warehouseDB.txt", false);
         PrintWriter pwOb = new PrintWriter(fwOb, false);

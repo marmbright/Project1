@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Creates warehouse
+ */
 public class Warehouse {
 
     public String name;
