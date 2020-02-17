@@ -44,7 +44,6 @@ public class Main {
         }catch (FileNotFoundException E){
             System.out.println("File not found: try again");
         }
-
     }
 
     /**converts inputted strings into the bike parts item

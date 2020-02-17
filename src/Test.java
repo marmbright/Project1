@@ -14,6 +14,7 @@ public class Test {
             Scanner in = new Scanner(System.in);
 
             ArrayList<BikePart> list = new ArrayList<>();
+            File warehouseDB = new File("warehouseDB.txt");
             toBikeArray("warehouseDB.txt", list);
 
             boolean quitFlag = false;
@@ -46,9 +47,9 @@ public class Test {
 
                         String invFileName = in.nextLine();
 
-                        ArrayList<BikePart> temp = new ArrayList<BikePart>();
+                        //ArrayList<BikePart> temp = new ArrayList<BikePart>();
 
-                        toBikeArray(invFileName, temp);
+                        toBikeArray(invFileName, list);
 
                         System.out.println(invFileName + " successfully processed");
 
@@ -58,7 +59,7 @@ public class Test {
 
                 } else if (user_input.equals("Enter BikePart")) {
                     boolean enterBikePartFlag = false;
-                    while (enterBikePartFlag = false) {
+                    while (enterBikePartFlag == false) {
                         System.out.println("Please enter your bike part's attributes: ");
 
                         System.out.println("Name: ");
@@ -90,8 +91,11 @@ public class Test {
                             }
                             if (exists == false) {
                                 list.add(tempPart);
+                                exists = true;
                             }
                         }
+                        enterBikePartFlag = true;
+                        System.out.println();
                     }
 
 
