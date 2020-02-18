@@ -17,15 +17,10 @@ public class Test {
     public static void main(String[] args) throws IOException {
         try {
             Scanner in = new Scanner(System.in);
+
             ArrayList<BikePart> list = new ArrayList<>();
 
-            //File yourFile = new File("warehouseDB.txt");
-            //yourFile.createNewFile(); // if file already exists will do nothing
-            //FileOutputStream oFile = new FileOutputStream(yourFile, false);
-
             toBikeArray("warehouseDB.txt", list);
-            //clearTheFile();
-            // System.out.println(list.get(1).quantity);
 
             boolean quitFlag = false;
             while (!quitFlag) {
@@ -82,7 +77,7 @@ public class Test {
 
                         BikePart tempPart = new BikePart(enterName, enterNumber, enterPrice, enterSalesPrice, enterOnSale, enterQuantity);
 
-                        boolean exists = false;
+                        boolean doesExist = false;
                         for (int i = 0; i < list.size(); i++) {
                             BikePart temp = list.get(i);
                             if (temp.partNumber.equals(tempPart.partNumber)) {
@@ -92,13 +87,13 @@ public class Test {
                                 temp.onSale = tempPart.onSale;
                                 temp.partName = tempPart.partName;
                                 list.set(i, temp);
-                                exists = true;
+                                doesExist = true;
                             }
                         }
-                        if (!exists) {
+                        if (!doesExist) {
                             list.add(tempPart);
                             System.out.println("BikePart successfully added");
-                            exists = true;
+                            doesExist = true;
                         }
 
                         enterBikePartFlag = true;
@@ -108,52 +103,56 @@ public class Test {
 
 
                 } else if (user_input.equals("Sell BikePart")) {
-                    boolean doesExist = false;
-                    while (!doesExist) {
-                        System.out.println("Please enter bike part number: ");
-                        String enterNumber = in.nextLine();
+                    System.out.println("Please enter bike part number: ");
+                    String enterNumber = in.nextLine();
 
-                        System.out.println("Please enter the amount to sell: ");
-                        int enterSellQuantity = in.nextInt();
-
+                    System.out.println("Please enter the amount to sell: ");
+                    int enterSellQuantity = in.nextInt();
+                    boolean isValidAmount = true;
+                    if (enterSellQuantity < 0){
+                        System.out.print("Please enter an amount over zero.");
+                        isValidAmount = false;
+                    }
+                    if (isValidAmount) {
+                        // Search for BikePart
+                        int bikePartID = 0; //This is a placeholder for the when we find the part, if it exits
+                        boolean doesExist = false;
+                        boolean hasEnoughToSell = false;
                         for (int i = 0; i < list.size(); i++) {
                             BikePart temp = list.get(i);
 
                             if (temp.partNumber.equals(enterNumber)) {
-
-                            if ((temp.quantity - enterSellQuantity) < 0) {
-                                System.out.println("Error: can't sell more bike parts than there are available.\n" +
-                                        "Number available: " + temp.quantity);
-                            } else {
-                                temp.quantity -= enterSellQuantity;
+                                doesExist = true;
+                                bikePartID = i;
+                                if (temp.quantity - enterSellQuantity >= 0) {
+                                    hasEnoughToSell = true;
+                                }
                             }
 
-                                if (temp.onSale) {
-                                    System.out.println(temp.partName + "," +
-                                            temp.salesPrice);
+                        }
+                        if (!doesExist) {
+                            System.out.println("The bike part you're trying to sell does not exist.");
+                        } else {
+                            if (!hasEnoughToSell) {
+                                System.out.println("Not enough units available to complete the sale");
+                            } else {
+                                list.get(bikePartID).quantity -= enterSellQuantity;
+                                if (list.get(bikePartID).onSale) {
+                                    System.out.println(list.get(bikePartID).partName + "," +
+                                            list.get(bikePartID).salesPrice);
                                 } else {
-                                    System.out.println(temp.partName + "," +
-                                            temp.price);
+                                    System.out.println(list.get(bikePartID).partName + "," +
+                                            list.get(bikePartID).price);
                                 }
-
                                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                                 Date date = new Date();
                                 System.out.println(formatter.format(date));
-                                temp.quantity -= enterSellQuantity;
-
-                                doesExist = true;
                             }
+
                         }
-                        if (doesExist) {
-                            System.out.println("Bike part does not exist.");
-                            break;
-                        }
-                        in.nextLine();
                     }
-
-
-
-
+                    in.nextLine();
+                    
                 } else if (user_input.equals("Display BikePart")) {
                     System.out.println("Please enter bike part name: ");
                     String enterName = in.nextLine();
