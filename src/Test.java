@@ -108,8 +108,8 @@ public class Test {
 
 
                 } else if (user_input.equals("Sell BikePart")) {
-                    boolean sellBikePartFlag = false;
-                    while (!sellBikePartFlag) {
+                    boolean doesExist = false;
+                    while (!doesExist) {
                         System.out.println("Please enter bike part number: ");
                         String enterNumber = in.nextLine();
 
@@ -121,13 +121,13 @@ public class Test {
 
                             if (temp.partNumber.equals(enterNumber)) {
 
-                            /*if ((temp.quantity - enterSellQuantity) < 0) {
+                            if ((temp.quantity - enterSellQuantity) < 0) {
                                 System.out.println("Error: can't sell more bike parts than there are available.\n" +
                                         "Number available: " + temp.quantity);
                             } else {
                                 temp.quantity -= enterSellQuantity;
                             }
-                             */
+
                                 if (temp.onSale) {
                                     System.out.println(temp.partName + "," +
                                             temp.salesPrice);
@@ -141,12 +141,12 @@ public class Test {
                                 System.out.println(formatter.format(date));
                                 temp.quantity -= enterSellQuantity;
 
-                                sellBikePartFlag = true;
+                                doesExist = true;
                             }
                         }
-                        if (!sellBikePartFlag) {
+                        if (doesExist) {
                             System.out.println("Bike part does not exist.");
-                            sellBikePartFlag = true;
+                            break;
                         }
                         in.nextLine();
                     }
