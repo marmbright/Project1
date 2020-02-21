@@ -377,4 +377,27 @@ public class Test {
             VanToFill.vanInv.add(elementsToAdd.get(i));
         }
     }
+
+    private static void wareVan (Vans van, ArrayList<BikePart> bikeParts){
+        //how many parts taken by the van then prompt that many times for the part number and how many they want
+        Scanner input=new Scanner( System.in );
+        System.out.println("Enter how many BikeParts the van will be taking: ");
+        int vanNum = input.nextInt();
+
+        for (int i =0; i<vanNum; i++){
+            System.out.println("Enter part number: ");
+            String compNum = input.nextLine();
+            System.out.println("Enter quantity: ");
+            int outNum=input.nextInt();
+
+            for (int j=0; j<outNum;j++){
+                if (compNum.equals( bikeParts.get(j).partNumber )){
+                    BikePart temp=bikeParts.get( j );
+                    bikeParts.get( j ).quantity-=outNum;
+                    temp.quantity=outNum;
+                    van.vanInv.add( temp );
+                }
+            }
+        }
+    }
 }
