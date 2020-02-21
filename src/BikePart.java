@@ -4,7 +4,7 @@ Section 1
 I hereby declare upon my word of honor that I have neither given nor received unauthorized help on this work.
  */
 
-public class BikePart{
+public class BikePart implements Comparable <String>{
 
     String partName;
     String partNumber;
@@ -67,5 +67,8 @@ public class BikePart{
     }
 
 
-
+    @Override
+    public int compareTo(String o) {
+        return 0;
+    }
 }
