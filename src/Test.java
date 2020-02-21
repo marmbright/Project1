@@ -322,4 +322,59 @@ public class Test {
         }
         System.out.println();
     }
+    private static void VanToVan(Vans VanToEmpty, Vans VanToFill) {
+        // We're going to create an array list here that we'll add items to in the future so we can eventually add them to
+        // our warehouse. This is done so that we don't add elements in the moment of our query and confuse
+        // its idea of how big the warehouse is
+        ArrayList<BikePart> elementsToAdd = new ArrayList<>();
+
+
+        // We then have a BikePart Array from the pre-existing file that can be empty
+        boolean isEmpty = false;
+        if (VanToFill.vanInv.size() == 0){
+            isEmpty = true;
+        }
+        // This is the parameter "warehouseArray" that we're already asking for in this method
+
+        // If there are no elements in the warehouse, we simply add each element in the invArray to the warehouseArray
+        if (isEmpty){
+            for (int i = 0; i < VanToEmpty.vanInv.size(); i++){
+                VanToFill.vanInv.add(VanToEmpty.vanInv.get(i));
+            }
+        } else { // If there are elements in the warehouse:
+            // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
+
+            // Select each item in our inventory class that we're comparing with each item in the existing array
+            for (int i = 0; i < VanToEmpty.vanInv.size(); i++) { //because the first element starts at 0, the last item is at 'n'. So, we should
+                //stop looping when we end with index 'n'. We do this by setting our condition
+                //to have 'i' be less than the size of the Array which is equal to n+1
+                // We set up a temporary bikepart object of the inventory bikepart we're looking at so we can compare it so that of each warehouse bikepart
+                BikePart invBikePart = VanToEmpty.vanInv.get(i);
+                // We're going to set this boolean so that if this BikePart doesn't already exist, we can just add it later
+                boolean doesExist = false;
+                for (int j = 0; j < VanToFill.vanInv.size(); j++) {
+                    // We set up a temporary bikepart object of the warehouse bikepart we're looking at so we can compare it to the inventory bikepart at hand
+                    BikePart wareBikePart = VanToFill.vanInv.get(j);
+                    // We compare the inventory BikePart with the warehouse BikePart
+                    if (wareBikePart.partNumber.equals(invBikePart.partNumber)) {
+                        doesExist = true;
+                        wareBikePart.quantity += invBikePart.quantity;
+                        wareBikePart.price = invBikePart.price;
+                        wareBikePart.salesPrice = invBikePart.salesPrice;
+                        wareBikePart.onSale = invBikePart.onSale;
+                    }
+                }
+                if (doesExist == false) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
+                    elementsToAdd.add(invBikePart);
+
+                }
+
+
+            }
+        }
+        // This is where we add the new BikeParts that we didn't add in the moment
+        for (int i = 0; i < elementsToAdd.size(); i++) {
+            VanToFill.vanInv.add(elementsToAdd.get(i));
+        }
+    }
 }
