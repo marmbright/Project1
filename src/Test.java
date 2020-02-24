@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -260,7 +259,7 @@ public class Test {
                         wareBikePart.onSale = invBikePart.onSale;
                     }
                 }
-                if (doesExist == false) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
+                if (!doesExist) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
                     elementsToAdd.add(invBikePart);
 
                 }
@@ -364,7 +363,7 @@ public class Test {
                         wareBikePart.onSale = invBikePart.onSale;
                     }
                 }
-                if (doesExist == false) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
+                if (!doesExist) { // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
                     elementsToAdd.add(invBikePart);
 
                 }
@@ -378,6 +377,13 @@ public class Test {
         }
     }
 
+    /*
+    wareVan needs to read in a .txt file supplied by the van. The file should look something like this:
+    warehouseName,vanNam
+    Tires,6
+    coolCatBell,100
+    etc.
+     */
     private static void wareVan (Vans van, ArrayList<BikePart> bikeParts){
         //how many parts taken by the van then prompt that many times for the part number and how many they want
         Scanner input=new Scanner( System.in );
