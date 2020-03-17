@@ -18,7 +18,7 @@ public class Test {
             Scanner in = new Scanner(System.in);
 
             ArrayList<BikePart> list = new ArrayList<>();
-            ArrayList<Van> fleet = new ArrayList<>();
+            ArrayList<String> fleet = new ArrayList<>();
 
             toBikeArray("warehouseDB.txt", list);
             toVanArray("Fleet.txt", fleet);
@@ -46,7 +46,7 @@ public class Test {
                     out.close();
                     PrintWriter out2 = new PrintWriter("Fleet.txt");
                     for (int i = 0; i < fleet.size(); i++) {
-                        String vanName = fleet.get(i).getVanName();
+                        String vanName = fleet.get(i);
                         out2.println(vanName);
                     }
                     out2.close();
