@@ -415,7 +415,7 @@ public class Test {
         // This is us checking uniqueness against pre-existing elements within our fleet
         for (int i = 0; i < fleet.size(); i++) {
             String fleetVan = fleet.get(i).getVanName();
-            if (vanToAdd.getVanName().equals(fleetVan)) {
+            if (vanToAdd.getVanName().equalsIgnoreCase(fleetVan)) {
                 isUnique = false;
             }
         }
