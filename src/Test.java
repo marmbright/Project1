@@ -384,26 +384,19 @@ public class Test {
     coolCatBell,100
     etc.
      */
+    //
     private static void wareVan (Vans van, ArrayList<BikePart> bikeParts){
         //how many parts taken by the van then prompt that many times for the part number and how many they want
-        Scanner input=new Scanner( System.in );
-        System.out.println("Enter how many BikeParts the van will be taking: ");
-        int vanNum = input.nextInt();
-
-        for (int i =0; i<vanNum; i++){
-            System.out.println("Enter part number: ");
-            String compNum = input.nextLine();
-            System.out.println("Enter quantity: ");
-            int outNum=input.nextInt();
-
-            for (int j=0; j<outNum;j++){
-                if (compNum.equals( bikeParts.get(j).partNumber )){
-                    BikePart temp=bikeParts.get( j );
-                    bikeParts.get( j ).quantity-=outNum;
-                    temp.quantity=outNum;
-                    van.vanInv.add( temp );
+        //take inv from van parameter and decrement from warehouse
+        ArrayList<BikePart> temp = van.vanInv;
+        for (int i=0; i<temp.size();i++) {
+            for (int j = 0; j < bikeParts.size(); i++) {
+                if (temp.get( i ).partNumber == bikeParts.get( j ).partNumber){
+                    bikeParts.get( j ).quantity -= bikeParts.get( i ).quantity;
                 }
             }
         }
+
+
     }
 }
