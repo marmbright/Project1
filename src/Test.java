@@ -37,10 +37,14 @@ public class Test {
                     System.out.println("Please enter your inventory file name: ");
 
                     String invFileName = in.nextLine();
+                    File file = new File(invFileName);
 
-                    updateBikeArray(invFileName, list);
+                    if(file.exists()) {
 
-                    System.out.println(invFileName + " successfully processed\n");
+                        updateBikeArray(invFileName, list);
+
+                        System.out.println(invFileName + " successfully processed\n");
+                    }
 
                     //Enter BikePart
                 } else if (user_input.equalsIgnoreCase("Enter BikePart")) {
@@ -322,7 +326,7 @@ public class Test {
 
         for (int i = 0; i < fleetNames.size(); i++){
             String vanName = fleetNames.get(i);
-            File vanFile = new File(fleetNames.get(i) + ".txt.");
+            File vanFile = new File(fleetNames.get(i) + ".txt");
             Scanner input = new Scanner(vanFile);
             ArrayList<BikePart> vanInv = new ArrayList<>();
             while (input.hasNextLine()) {
@@ -376,7 +380,7 @@ public class Test {
         System.out.println();
     }
 
-    private static void addVanToFleet(Van vanToAdd, ArrayList<Van> fleet) throws FileNotFoundException {
+    private static void addVanToFleet(Van vanToAdd, ArrayList<Van> fleet){
         // We want to be able to tell the user if he or she entered a name that's already being used
         // We do this by assuming the name they provide is unique and then going through our fleet to check otherwise
         boolean isUnique = true;
