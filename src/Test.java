@@ -21,8 +21,8 @@ public class Test {
             ArrayList<BikePart> list = new ArrayList<>();
             ArrayList<Van> fleet = new ArrayList<>();
 
-            toBikeArray( "warehouseDB.txt", list );
-            toVanArray( "Fleet.txt", fleet );
+            toBikeArray(list );
+            toVanArray(fleet );
 
             boolean quitFlag = false;
             while (!quitFlag) {
@@ -35,20 +35,19 @@ public class Test {
                 if (user_input.equalsIgnoreCase( "Quit" )) {
                     quitFlag = true;
                     PrintWriter out = new PrintWriter( "warehouseDB.txt" );
-                    for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get( i );
-                        out.println( temp.partName + "," +
+                    for (BikePart temp : list) {
+                        out.println(temp.partName + "," +
                                 temp.partNumber + "," +
                                 temp.price + "," +
                                 temp.salesPrice + "," +
                                 temp.onSale + "," +
-                                temp.quantity );
+                                temp.quantity);
                     }
                     out.close();
                     PrintWriter out2 = new PrintWriter( "Fleet.txt" );
-                    for (int i = 0; i < fleet.size(); i++) {
-                        String vanName = fleet.get( i ).vanName;
-                        out2.println( vanName );
+                    for (Van van : fleet) {
+                        String vanName = van.vanName;
+                        out2.println(vanName);
                     }
                     out2.close();
                     System.out.println( "warehouseDB.txt file successfully processed" );
@@ -165,16 +164,14 @@ public class Test {
                     System.out.println( "Please enter bike part name: " );
                     String enterName = in.nextLine();
 
-                    for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get( i );
-
-                        if (temp.partName.equals( enterName )) {
+                    for (BikePart temp : list) {
+                        if (temp.partName.equals(enterName)) {
                             if (temp.onSale) {
-                                System.out.println( "\nPart name: " + temp.partName + "\n" +
-                                        "Current price: " + temp.salesPrice + "\n" );
+                                System.out.println("\nPart name: " + temp.partName + "\n" +
+                                        "Current price: " + temp.salesPrice + "\n");
                             } else {
-                                System.out.println( "\nPart name: " + temp.partName + "\n" +
-                                        "Current price: " + temp.price + "\n" );
+                                System.out.println("\nPart name: " + temp.partName + "\n" +
+                                        "Current price: " + temp.price + "\n");
                             }
                         }
                     }
@@ -251,27 +248,23 @@ public class Test {
 
         // If there are no elements in the warehouse, we simply add each element in the invArray to the warehouseArray
         if (isEmpty) {
-            for (int i = 0; i < invArray.size(); i++) {
-                warehouseArray.add( invArray.get( i ) );
-            }
+            warehouseArray.addAll(invArray);
         } else {
             // If there are elements in the warehouse:
             // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
 
             // Select each item in our inventory class that we're comparing with each item in the existing array
-            for (int i = 0; i < invArray.size(); i++) {
+            for (BikePart invBikePart : invArray) {
                 //because the first element starts at 0, the last item is at 'n'. So, we should
                 //stop looping when we end with index 'n'. We do this by setting our condition
                 //to have 'i' be less than the size of the Array which is equal to n+1
                 // We set up a temporary bikepart object of the inventory bikepart we're looking at so we can compare it so that of each warehouse bikepart
-                BikePart invBikePart = invArray.get( i );
                 // We're going to set this boolean so that if this BikePart doesn't already exist, we can just add it later
                 boolean doesExist = false;
-                for (int j = 0; j < warehouseArray.size(); j++) {
+                for (BikePart wareBikePart : warehouseArray) {
                     // We set up a temporary bikepart object of the warehouse bikepart we're looking at so we can compare it to the inventory bikepart at hand
-                    BikePart wareBikePart = warehouseArray.get( j );
                     // We compare the inventory BikePart with the warehouse BikePart
-                    if (wareBikePart.partNumber.equals( invBikePart.partNumber )) {
+                    if (wareBikePart.partNumber.equals(invBikePart.partNumber)) {
                         doesExist = true;
                         wareBikePart.quantity += invBikePart.quantity;
                         wareBikePart.price = invBikePart.price;
@@ -282,7 +275,7 @@ public class Test {
                 if (!doesExist) {
                     // This is where we add the new BikePart, that we don't want added in the moment,
                     // to the elementsToAdd Array
-                    elementsToAdd.add( invBikePart );
+                    elementsToAdd.add(invBikePart);
 
                 }
 
@@ -290,13 +283,11 @@ public class Test {
             }
         }
         // This is where we add the new BikeParts that we didn't add in the moment
-        for (int i = 0; i < elementsToAdd.size(); i++) {
-            warehouseArray.add( elementsToAdd.get( i ) );
-        }
+        warehouseArray.addAll(elementsToAdd);
     }
 
-    private static void toBikeArray(String fileName, ArrayList<BikePart> bikeparts) throws FileNotFoundException {
-        File fileIn = new File( fileName );
+    private static void toBikeArray(ArrayList<BikePart> bikeparts) throws FileNotFoundException {
+        File fileIn = new File("warehouseDB.txt");
         Scanner input = new Scanner( fileIn );
         while (input.hasNextLine()) {
             bikeparts.add( toBikeParts( input.nextLine() ) );
@@ -305,8 +296,8 @@ public class Test {
 
     }
 
-    private static void toVanArray(String fleetFileName, ArrayList<Van> fleet) throws FileNotFoundException {
-        File fileIn = new File( fleetFileName );
+    private static void toVanArray(ArrayList<Van> fleet) throws FileNotFoundException {
+        File fileIn = new File("Fleet.txt");
         Scanner in = new Scanner( fileIn );
         ArrayList<String> fleetNames = new ArrayList<>();
         while (in.hasNextLine()) {
@@ -337,13 +328,13 @@ public class Test {
         tempList.sort( new SortByNumber() );
 
         System.out.println( "Sorting bike parts by their IDs:\n" );
-        for (int i = 0; i < tempList.size(); i++) {
-            System.out.println( tempList.get( i ).partName + "," +
-                    tempList.get( i ).partNumber + "," +
-                    tempList.get( i ).price + "," +
-                    tempList.get( i ).salesPrice + "," +
-                    tempList.get( i ).onSale + "," +
-                    tempList.get( i ).quantity );
+        for (BikePart bikePart : tempList) {
+            System.out.println(bikePart.partName + "," +
+                    bikePart.partNumber + "," +
+                    bikePart.price + "," +
+                    bikePart.salesPrice + "," +
+                    bikePart.onSale + "," +
+                    bikePart.quantity);
         }
         System.out.println();
     }
@@ -358,13 +349,13 @@ public class Test {
         tempList.sort( new SortByName() );
 
         System.out.println( "Sorting bike parts by their names:\n" );
-        for (int i = 0; i < tempList.size(); i++) {
-            System.out.println( tempList.get( i ).partName + "," +
-                    tempList.get( i ).partNumber + "," +
-                    tempList.get( i ).price + "," +
-                    tempList.get( i ).salesPrice + "," +
-                    tempList.get( i ).onSale + "," +
-                    tempList.get( i ).quantity );
+        for (BikePart bikePart : tempList) {
+            System.out.println(bikePart.partName + "," +
+                    bikePart.partNumber + "," +
+                    bikePart.price + "," +
+                    bikePart.salesPrice + "," +
+                    bikePart.onSale + "," +
+                    bikePart.quantity);
         }
         System.out.println();
     }
@@ -378,9 +369,8 @@ public class Test {
         boolean isUnique = true;
 
         // This is us checking uniqueness against pre-existing elements within our fleet
-        for (int i = 0; i < fleet.size(); i++) {
-            Van fleetVan = fleet.get( i );
-            if (newVan.equals( fleetVan )) {
+        for (Van fleetVan : fleet) {
+            if (newVan.equals(fleetVan)) {
                 isUnique = false;
             }
         }
@@ -410,9 +400,7 @@ public class Test {
 
         // If there are no elements in the Van to fill, we simply add each element in the invArray to the warehouseArray
         if (isEmpty) {
-            for (int i = 0; i < VanToEmpty.vanInv.size(); i++) {
-                VanToFill.vanInv.add( VanToEmpty.vanInv.get( i ) );
-            }
+            VanToFill.vanInv.addAll(VanToEmpty.vanInv);
         } else {
             // If there are elements in the warehouse:
             // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
@@ -450,9 +438,7 @@ public class Test {
             }
         }
         // This is where we add the new BikeParts that we didn't add in the moment
-        for (int i = 0; i < elementsToAdd.size(); i++) {
-            VanToFill.vanInv.add( elementsToAdd.get( i ) );
-        }
+        VanToFill.vanInv.addAll(elementsToAdd);
     }
 
 
@@ -473,16 +459,16 @@ public class Test {
         String warename= wareAndVan[0];
         String vanname= wareAndVan[1];
         Van temp;
-        for (int i=0; i<fleet.size(); i++){
-            if(fleet.get( i ).vanName.equals( vanname )){
-                temp=fleet.get( i );
+        for (Van van : fleet) {
+            if (van.vanName.equals(vanname)) {
+                temp = van;
             }
         }
         while (in.hasNextLine()) {
             String[] read = in.nextLine().split( "," );
-            for (int i = 0; i < list.size(); i++) {
-                if (read[0].equals( list.get( i ) )) {
-                    list.get( i ).quantity -= Integer.parseInt(  read[1] );
+            for (BikePart bikePart : list) {
+                if (read[0].equals(bikePart)) {
+                    bikePart.quantity -= Integer.parseInt(read[1]);
                 }
             }
         }
