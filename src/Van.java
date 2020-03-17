@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 
-public class Vans {
+public class Van {
     public String vanName;
     public ArrayList<BikePart> vanInv;
 
-    public Vans(String name, ArrayList<BikePart> inv){
+    public Van(String name, ArrayList<BikePart> vanInv){
         this.vanName = name;
-        this.vanInv = inv;
+        this.vanInv = vanInv;
     }
 
-    private String getVanName() {
+    public String getVanName() {
         return vanName;
     }
 
