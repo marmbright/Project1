@@ -34,18 +34,26 @@ public class Test {
 
                 //Read File
                 if (user_input.equalsIgnoreCase("Read File")) {
-                    System.out.println("Please enter your inventory file name: ");
+                    boolean flag = true;
+                    while (flag) {
+                        System.out.println("Please enter your inventory file name: ");
 
-                    String invFileName = in.nextLine();
-                    File file = new File(invFileName);
+                        String invFileName = in.nextLine();
+                        File file = new File(invFileName);
 
-                    if(file.exists()) {
+                        if (file.exists()) {
 
-                        updateBikeArray(invFileName, list);
+                            updateBikeArray(invFileName, list);
 
-                        System.out.println(invFileName + " successfully processed\n");
+                            System.out.println(invFileName + " successfully processed\n");
+
+                            flag = false;
+                        } else if (invFileName.equalsIgnoreCase("Return")) {
+                            flag = false;
+                        } else {
+                            System.out.println("File not found. Type 'Return' to go back to the menu");
+                        }
                     }
-
                     //Enter BikePart
                 } else if (user_input.equalsIgnoreCase("Enter BikePart")) {
                     System.out.println("Please enter your bike part's attributes: ");
