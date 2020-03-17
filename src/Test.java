@@ -100,14 +100,28 @@ public class Test {
 
                     //Sell BikePart
                 } else if (user_input.equalsIgnoreCase("Sell BikePart")) {
+                    System.out.println("Available inventories: \nwarehouseDB.txt");
+                    for (int i = 0; i < fleet.size(); i++){
+                        System.out.println(fleet.get(i).vanName + ".txt");
+                    }
+                    System.out.println("\nPlease enter the warehouse you wish to see a bikepart from: ");
+                    String warehouseInput = in.nextLine();
+
                     System.out.println("Please enter bike part number: ");
                     String enterNumber = in.nextLine();
 
                     System.out.println("Please enter the amount to sell: ");
                     int enterSellQuantity = in.nextInt();
+
+
+                    ArrayList<BikePart> sellList;
+                    boolean isInVanArray = true;
+                    if (warehouseInput.equalsIgnoreCase("warehouseDB.txt")){
+                        sellList = list;
+                    }
                     boolean isValidAmount = true;
                     if (enterSellQuantity < 0) {
-                        System.out.print("Please enter an amount over zero.");
+                        System.out.println("Please enter an amount over zero.");
                         isValidAmount = false;
                     }
                     if (isValidAmount) {
@@ -186,9 +200,14 @@ public class Test {
                     System.out.println("Enter van name: ");
                     ArrayList<BikePart> emptyVanInv = new ArrayList<>();
                     Van vanToAdd = new Van(in.nextLine(), emptyVanInv);
-                    System.out.println(fleet);
+                    for (int i = 0; i < fleet.size(); i++){
+                        System.out.println(fleet.get(i).getVanName());
+                    }
+                    System.out.println();
                     addVanToFleet(vanToAdd, fleet);
-                    System.out.println(fleet);
+                    for (int i = 0; i < fleet.size(); i++){
+                        System.out.println(fleet.get(i).getVanName());
+                    }
 
                     //Quit
                 } else if (user_input.equalsIgnoreCase("Quit")) {
@@ -396,7 +415,7 @@ public class Test {
         // This is us checking uniqueness against pre-existing elements within our fleet
         for (int i = 0; i < fleet.size(); i++) {
             String fleetVan = fleet.get(i).getVanName();
-            if (vanToAdd.equals(fleetVan)) {
+            if (vanToAdd.getVanName().equals(fleetVan)) {
                 isUnique = false;
             }
         }
@@ -407,118 +426,6 @@ public class Test {
         } else {
             System.out.println("The van name you've entered is already being used. Please choose another name.");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     private static void VanToVan(Van VanToEmpty, Van VanToFill) {
         // We're going to create an array list here that we'll add items to in the future so we can eventually add them to
