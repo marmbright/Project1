@@ -6,12 +6,12 @@ I hereby declare upon my word of honor that I have neither given nor received un
 
 public class BikePart implements Comparable <String>{
 
-    String partName;
-    String partNumber;
-    double price;
-    double salesPrice;
-    boolean onSale;
-    int quantity;
+    public String partName;
+    public String partNumber;
+    public double price;
+    public double salesPrice;
+    public boolean onSale;
+    public int quantity;
 
     /**this class is to keep inventory of bike parts and their info
      * @param name This is the name

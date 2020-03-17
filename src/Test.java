@@ -16,19 +16,19 @@ public class Test {
      */
     public static void main(String[] args) throws IOException {
         try {
-            Scanner in = new Scanner( System.in );
+            Scanner in = new Scanner(System.in);
 
             ArrayList<BikePart> list = new ArrayList<>();
             ArrayList<Van> fleet = new ArrayList<>();
 
-            toBikeArray(list );
-            toVanArray(fleet );
+            toBikeArray(list);
+            toVanArray(fleet);
 
             boolean quitFlag = false;
             while (!quitFlag) {
-                System.out.println( "What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
+                System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
-                        "Quit" );
+                        "Quit");
                 String user_input = in.nextLine();
 
 
@@ -298,24 +298,25 @@ public class Test {
 
     private static void toVanArray(ArrayList<Van> fleet) throws FileNotFoundException {
         File fileIn = new File("Fleet.txt");
-        Scanner in = new Scanner( fileIn );
+        Scanner in = new Scanner(fileIn);
         ArrayList<String> fleetNames = new ArrayList<>();
         while (in.hasNextLine()) {
-            fleetNames.add( in.nextLine() );
+            fleetNames.add(in.nextLine());
         }
+        System.out.println(fleetNames.get(1));
+
         for (int i = 0; i < fleetNames.size(); i++) {
-            String vanName = fleetNames.get( i );
-
-            File vanFile = new File( i + ".txt." );
-            Scanner input = new Scanner( vanFile );
+            String vanName = fleetNames.get(i);
+            File vanFile = new File(fleetNames.get(i) + ".txt.");
+            System.out.println(fleetNames.get(i) + ".txt");
+            Scanner input = new Scanner(vanFile);
             ArrayList<BikePart> vanInv = new ArrayList<>();
-            vanInv.add( toBikeParts( input.nextLine() ) );
-
-            Van tempVan = new Van( vanName, vanInv );
-            fleet.add( tempVan );
+            while (input.hasNextLine()) {
+                vanInv.add(toBikeParts(input.nextLine()));
+            }
+            Van tempVan = new Van(vanName, vanInv);
+            fleet.add(tempVan);
         }
-
-
     }
 
     /**
