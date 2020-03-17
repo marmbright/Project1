@@ -47,7 +47,7 @@ public class Test {
                     out.close();
                     PrintWriter out2 = new PrintWriter( "Fleet.txt" );
                     for (int i = 0; i < fleet.size(); i++) {
-                        String vanName = fleet.get( i );
+                        String vanName = fleet.get( i ).vanName;
                         out2.println( vanName );
                     }
                     out2.close();
@@ -369,7 +369,7 @@ public class Test {
         System.out.println();
     }
 
-    private static void addVanToFleet(Van VanToAdd, ArrayList<String> fleet) throws FileNotFoundException {
+    private static void addVanToFleet(Van VanToAdd, ArrayList<Van> fleet) throws FileNotFoundException {
         // Now we ask for the new Van to be added to the pre-existing fleet
         String newVan = VanToAdd.getVanName();
 
@@ -379,14 +379,14 @@ public class Test {
 
         // This is us checking uniqueness against pre-existing elements within our fleet
         for (int i = 0; i < fleet.size(); i++) {
-            String fleetVan = fleet.get( i );
+            Van fleetVan = fleet.get( i );
             if (newVan.equals( fleetVan )) {
                 isUnique = false;
             }
         }
         if (isUnique) {
             // This is where we add the new van to the fleet
-            fleet.add( newVan );
+            fleet.add( VanToAdd );
 
         } else {
             System.out.println( "The van name you've entered is already being used. Please choose another name." );
