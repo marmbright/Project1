@@ -29,10 +29,18 @@ public class BikePart{
         this.quantity=quantity;
     }
 
+    /**
+     * getter for the part name
+     * @return returns the part name
+     */
     public String getPartName (){
         return this.partName;
     }
 
+    /**
+     * getter for the part number
+     * @return returns the part number
+     */
     public String getPartNumber (){
         return this.partNumber;
     }

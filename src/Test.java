@@ -326,7 +326,7 @@ public class Test {
                     String filename = in.nextLine();
                     File file = new File(filename);
                     Scanner input = new Scanner(file);
-                    if (file.exists() == false) {
+                    if (!file.exists()) {
                         System.out.println("File not found. Type 'Return' to go back to the menu.");
                     } else {
                         ArrayList<String> fileLines = new ArrayList<>();
