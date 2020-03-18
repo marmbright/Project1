@@ -226,6 +226,10 @@ public class Test {
 
                     //Sort By Name
                 } else if (user_input.equalsIgnoreCase("Sort By Name")) {
+                    for (Van item: fleet) {
+                        System.out.println(item.vanName);
+                    }
+                    System.out.println("Main Warehouse");
                     System.out.println("Which list would you like to sort?");
                     String whichList = in.nextLine();
                     if (whichList.equalsIgnoreCase( "van" )){
@@ -245,6 +249,10 @@ public class Test {
 
                     //Sort By Number
                 } else if (user_input.equalsIgnoreCase("Sort By Number")) {
+                    for (Van item: fleet) {
+                        System.out.println(item.vanName);
+                    }
+                    System.out.println("Main Warehouse");
                     System.out.println("Which list would you like to sort?");
                     String whichList = in.nextLine();
                     if (whichList.equalsIgnoreCase( "van" )){
