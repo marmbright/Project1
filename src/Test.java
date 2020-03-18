@@ -29,7 +29,7 @@ public class Test {
             while (!quitFlag) {
                 System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
-                        "Quit | Add Van To Fleet");
+                        "Quit | Add Van To Fleet | Warehouse Transfer");
                 String user_input = in.nextLine();
 
                 //Read File
@@ -56,6 +56,31 @@ public class Test {
                     }
                     //Enter BikePart
                 } else if (user_input.equalsIgnoreCase("Enter BikePart")) {
+                    System.out.println("Available inventories: \nwarehouseDB");
+                    for (int i = 0; i < fleet.size(); i++) {
+                        System.out.println(fleet.get(i).vanName);
+                    }
+                    System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
+                    String warehouseInput = in.nextLine();
+
+                    ArrayList<BikePart> sellList = new ArrayList<>();
+                    boolean isInVanArray = false;
+                    int fleetIndex = 0;
+
+                    for (int i = 0; i < fleet.size(); i++) {
+
+                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)) {
+                            isInVanArray = true;
+                            fleetIndex = i;
+                        }
+                    }
+                    if (warehouseInput.equalsIgnoreCase("warehouseDB")) {
+                        sellList = list;
+                    } else if (isInVanArray) {
+                        sellList = fleet.get(fleetIndex).vanInv;
+                    } else {
+                        System.out.println("Please select a valid warehouse inventory.");
+                    }
                     System.out.println("Please enter your bike part's attributes: ");
 
                     System.out.println("Name: ");
@@ -79,20 +104,20 @@ public class Test {
                             enterQuantity);
 
                     boolean doesExist = false;
-                    for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get(i);
+                    for (int i = 0; i < sellList.size(); i++) {
+                        BikePart temp = sellList.get(i);
                         if (temp.partNumber.equals(tempPart.partNumber)) {
                             temp.quantity += tempPart.quantity;
                             temp.price = tempPart.price;
                             temp.salesPrice = tempPart.salesPrice;
                             temp.onSale = tempPart.onSale;
                             temp.partName = tempPart.partName;
-                            list.set(i, temp);
+                            sellList.set(i, temp);
                             doesExist = true;
                         }
                     }
                     if (!doesExist) {
-                        list.add(tempPart);
+                        sellList.add(tempPart);
                         doesExist = true;
                     }
                     System.out.println("BikePart successfully added\n");
@@ -101,7 +126,7 @@ public class Test {
                     //Sell BikePart
                 } else if (user_input.equalsIgnoreCase("Sell BikePart")) {
                     System.out.println("Available inventories: \nwarehouseDB");
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).vanName);
                     }
                     System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
@@ -118,14 +143,14 @@ public class Test {
                     boolean isInVanArray = false;
                     int fleetIndex = 0;
 
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
 
-                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)){
+                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)) {
                             isInVanArray = true;
                             fleetIndex = i;
                         }
                     }
-                    if (warehouseInput.equalsIgnoreCase("warehouseDB.txt")){
+                    if (warehouseInput.equalsIgnoreCase("warehouseDB")) {
                         sellList = list;
                     } else if (isInVanArray) {
                         sellList = fleet.get(fleetIndex).vanInv;
@@ -213,12 +238,12 @@ public class Test {
                     System.out.println("Enter van name: ");
                     ArrayList<BikePart> emptyVanInv = new ArrayList<>();
                     Van vanToAdd = new Van(in.nextLine(), emptyVanInv);
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).getVanName());
                     }
                     System.out.println();
                     addVanToFleet(vanToAdd, fleet);
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).getVanName());
                     }
 
@@ -251,12 +276,57 @@ public class Test {
                     }
                     System.out.println("warehouseDB.txt file successfully processed");
 
+                    // Warehouse Transfer
+                } else if (user_input.equalsIgnoreCase("Warehouse Transfer")) {
+                    System.out.println("Please enter the name of the transfer file:");
+                    String filename = in.nextLine();
+                    File file = new File(filename);
+                    if (file.exists() == false) {
+                        System.out.println("File not found. Type 'Return' to go back to the menu.");
+                    } else {
+                        ArrayList<String> fileLines = new ArrayList<>();
+                        while (in.hasNextLine()) {
+                            fileLines.add(in.nextLine());
+                        }
+                        String fileFrom = fileLines.get(0).split(",")[0];
+                        String fileTo = fileLines.get(0).split(",")[0];
 
-                } else {
-                    System.out.println("Please enter a valid command");
+                        ArrayList<BikePart> fileFromList = new ArrayList<>();
+                        ArrayList<BikePart> fileToList = new ArrayList<>();
 
+                        boolean fileFromInVanArray = false;
+                        boolean fileToInVanArray = false;
+                        int fileFromFleetIndex = 0;
+                        int fileToFleetIndex = 0;
+
+                        for (int i = 0; i < fleet.size(); i++) {
+
+                            if (fileFrom.equalsIgnoreCase(fleet.get(i).vanName)) {
+                                fileFromInVanArray = true;
+                                fileFromFleetIndex = i;
+                            } else if (fileTo.equalsIgnoreCase(fleet.get(i).vanName)) {
+                                fileToInVanArray = true;
+                                fileToFleetIndex = i;
+                            }
+                            if (fileFrom.equalsIgnoreCase("warehouseDB")) {
+                                fileFromList = list;
+                            } else if (fileTo.equalsIgnoreCase("warehouseDB")) {
+                                fileToList = list;
+                            } else if (fileFromInVanArray) {
+                                fileFromList = fleet.get(fileFromFleetIndex).vanInv;
+                            } else if (fileToInVanArray) {
+                                fileToList = fleet.get(fileToFleetIndex).vanInv;
+                            } else {
+                                System.out.println("Please select valid warehouse inventories.");
+                            }
+                        }
+                        //ArrayList<BikePart> invFrom =
+
+
+                    }
                 }
             }
+
         } catch (FileNotFoundException e) {
             System.out.println("File given isn't found.");
         } catch (IllegalArgumentException E) {
