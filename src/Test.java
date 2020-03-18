@@ -100,11 +100,11 @@ public class Test {
 
                     //Sell BikePart
                 } else if (user_input.equalsIgnoreCase("Sell BikePart")) {
-                    System.out.println("Available inventories: \nwarehouseDB.txt");
+                    System.out.println("Available inventories: \nwarehouseDB");
                     for (int i = 0; i < fleet.size(); i++){
-                        System.out.println(fleet.get(i).vanName + ".txt");
+                        System.out.println(fleet.get(i).vanName);
                     }
-                    System.out.println("\nPlease enter the warehouse you wish to see a bikepart from: ");
+                    System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
                     String warehouseInput = in.nextLine();
 
                     System.out.println("Please enter bike part number: ");
@@ -114,10 +114,23 @@ public class Test {
                     int enterSellQuantity = in.nextInt();
 
 
-                    ArrayList<BikePart> sellList;
-                    boolean isInVanArray = true;
+                    ArrayList<BikePart> sellList = new ArrayList<>();
+                    boolean isInVanArray = false;
+                    int fleetIndex = 0;
+
+                    for (int i = 0; i < fleet.size(); i++){
+
+                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)){
+                            isInVanArray = true;
+                            fleetIndex = i;
+                        }
+                    }
                     if (warehouseInput.equalsIgnoreCase("warehouseDB.txt")){
                         sellList = list;
+                    } else if (isInVanArray) {
+                        sellList = fleet.get(fleetIndex).vanInv;
+                    } else {
+                        System.out.println("Please select a valid warehouse inventory.");
                     }
                     boolean isValidAmount = true;
                     if (enterSellQuantity < 0) {
@@ -130,8 +143,8 @@ public class Test {
                         boolean doesExist = false;
                         boolean hasEnoughToSell = false;
                         int currentQuantity = 0;
-                        for (int i = 0; i < list.size(); i++) {
-                            BikePart temp = list.get(i);
+                        for (int i = 0; i < sellList.size(); i++) {
+                            BikePart temp = sellList.get(i);
 
                             if (temp.partNumber.equals(enterNumber)) {
                                 doesExist = true;
@@ -150,13 +163,13 @@ public class Test {
                                 System.out.println("Not enough units available to complete the sale." +
                                         " There is currently " + currentQuantity + " unit(s) in stock.\n");
                             } else {
-                                list.get(bikePartID).quantity -= enterSellQuantity;
-                                if (list.get(bikePartID).onSale) {
-                                    System.out.println(list.get(bikePartID).partName + "," +
-                                            list.get(bikePartID).salesPrice);
+                                sellList.get(bikePartID).quantity -= enterSellQuantity;
+                                if (sellList.get(bikePartID).onSale) {
+                                    System.out.println(sellList.get(bikePartID).partName + "," +
+                                            sellList.get(bikePartID).salesPrice);
                                 } else {
-                                    System.out.println(list.get(bikePartID).partName + "," +
-                                            list.get(bikePartID).price);
+                                    System.out.println(sellList.get(bikePartID).partName + "," +
+                                            sellList.get(bikePartID).price);
                                 }
                                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
                                 Date date = new Date();
@@ -223,12 +236,19 @@ public class Test {
                                 temp.quantity);
                     }
                     out.close();
-                    PrintWriter out2 = new PrintWriter("Fleet.txt");
-                    for (Van van : fleet) {
-                        String vanName = van.vanName;
-                        out2.println(vanName);
+                    for (int i = 0; i < fleet.size(); i++) {
+                        PrintWriter out2 = new PrintWriter(fleet.get(i).vanName + ".txt");
+                        for (int j = 0; j < fleet.get(i).getVanInv().size(); j++) {
+                            BikePart temp = fleet.get(i).getVanInv().get(j);
+                            out2.println(temp.partName + "," +
+                                    temp.partNumber + "," +
+                                    temp.price + "," +
+                                    temp.salesPrice + "," +
+                                    temp.onSale + "," +
+                                    temp.quantity);
+                        }
+                        out2.close();
                     }
-                    out2.close();
                     System.out.println("warehouseDB.txt file successfully processed");
 
 
