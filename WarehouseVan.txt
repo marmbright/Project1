@@ -2,4 +2,4 @@ warehouseDB,Van1
 wtbSaddle,4
 26inTube,10
 seatPost,2
-carbonHandleBars42cm,25
+carbonHandleBars42cm,2
