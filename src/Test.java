@@ -567,6 +567,12 @@ public class Test {
             warehouseArray.add(elementsToAdd.get(i));
         }
     }
+
+    /**
+     * reads in from a file and converts its contents into Bikeparts and moves them into an arraylist
+     * @param bikeparts Arraylist
+     * @throws FileNotFoundException
+     */
     private static void toBikeArray(ArrayList<BikePart> bikeparts) throws FileNotFoundException {
         File fileIn = new File("warehouseDB.txt");
         Scanner input = new Scanner(fileIn);
@@ -576,6 +582,12 @@ public class Test {
 
 
     }
+
+    /**
+     * reads in from a file and converts its contents into Van and moves them into an arraylist
+     * @param fleet Arraylist
+     * @throws FileNotFoundException
+     */
     private static void toVanArray(ArrayList<Van> fleet) throws FileNotFoundException {
         File fileIn = new File("Fleet.txt");
         Scanner in = new Scanner(fileIn);
@@ -640,6 +652,11 @@ public class Test {
         System.out.println();
     }
 
+    /**
+     * Adds user input Van into an Arraylist
+     * @param vanToAdd Van
+     * @param fleet Arraylist
+     */
     private static void addVanToFleet(Van vanToAdd, ArrayList<Van> fleet){
         // We want to be able to tell the user if he or she entered a name that's already being used
         // We do this by assuming the name they provide is unique and then going through our fleet to check otherwise
