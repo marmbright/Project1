@@ -202,11 +202,42 @@ public class Test {
 
                     //Sort By Name
                 } else if (user_input.equalsIgnoreCase("Sort By Name")) {
-                    sortName(list);
+                    System.out.println("Which list would you like to sort?");
+                    String whichList = in.nextLine();
+                    if (whichList.equalsIgnoreCase( "van" )){
+                        System.out.println("Which Van?");
+                        String van= in.nextLine();
+                        for (Van item: fleet) {
+                            if (van.equalsIgnoreCase( item.vanName )){
+                                sortName( item.vanInv );
+                            } else {
+                                System.out.println("This van doesn't exist.");
+                            }
+
+                        }
+                    }else  {
+                        sortName( list );
+                    }
+
 
                     //Sort By Number
                 } else if (user_input.equalsIgnoreCase("Sort By Number")) {
-                    sortNum(list);
+                    System.out.println("Which list would you like to sort?");
+                    String whichList = in.nextLine();
+                    if (whichList.equalsIgnoreCase( "van" )){
+                        System.out.println("Which Van?");
+                        String van= in.nextLine();
+                        for (Van item: fleet) {
+                            if (van.equalsIgnoreCase( item.vanName )){
+                                sortNum( item.vanInv );
+                            } else {
+                                System.out.println("This van doesn't exist.");
+                            }
+
+                        }
+                    }else  {
+                        sortNum( list );
+                    }
 
                     //Add Van To Fleet
                 } else if (user_input.equalsIgnoreCase("Add Van To Fleet")) {
@@ -455,6 +486,7 @@ public class Test {
         } else {
             System.out.println("The van name you've entered is already being used. Please choose another name.");
         }
+
     }
     private static void VanToVan(Van VanToEmpty, Van VanToFill) {
         // We're going to create an array list here that we'll add items to in the future so we can eventually add them to
