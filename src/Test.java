@@ -29,7 +29,7 @@ public class Test {
             while (!quitFlag) {
                 System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
-                        "Quit | Add Van To Fleet");
+                        "Quit | Add Van To Fleet | Move Parts from a Warehouse to a Van");
                 String user_input = in.nextLine();
 
                 //Read File
@@ -213,13 +213,24 @@ public class Test {
                     System.out.println("Enter van name: ");
                     ArrayList<BikePart> emptyVanInv = new ArrayList<>();
                     Van vanToAdd = new Van(in.nextLine(), emptyVanInv);
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).getVanName());
                     }
                     System.out.println();
                     addVanToFleet(vanToAdd, fleet);
-                    for (int i = 0; i < fleet.size(); i++){
+                    for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).getVanName());
+                    }
+
+                    //Move from A Warehouse to A van
+                } else if (user_input.equalsIgnoreCase("Move Parts from a Warehouse to a Van")){
+
+                    System.out.println("Enter the name of the inventory transfer file: ");
+                    String transFile = in.next();
+                    File move = new File(transFile);
+
+                    for(int i = 0; i < move.length(); i ++){
+
                     }
 
                     //Quit
