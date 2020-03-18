@@ -29,7 +29,7 @@ public class Test {
             while (!quitFlag) {
                 System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
-                        "Quit | Add Van To Fleet | Move Parts from a Warehouse to a Van");
+                        "Quit | Add Van To Fleet | Warehouse Transer");
                 String user_input = in.nextLine();
 
                 //Read File
@@ -223,7 +223,7 @@ public class Test {
                     }
 
                     //Move from A Warehouse to A van
-                } else if (user_input.equalsIgnoreCase("Move Parts from a Warehouse to a Van")){
+                } else if (user_input.equalsIgnoreCase("Warehouse Transfer")){
 
                     System.out.println("Enter the name of the inventory transfer file: ");
                     String transFile = in.next();
