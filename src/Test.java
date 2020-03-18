@@ -298,6 +298,11 @@ public class Test {
                                 temp.quantity);
                     }
                     out.close();
+                    PrintWriter fleetWriter = new PrintWriter("Fleet.txt");
+                    for (int i = 0; i < fleet.size(); i++) {
+                        fleetWriter.println(fleet.get(i).getVanName());
+                    }
+                    fleetWriter.close();
                     for (int i = 0; i < fleet.size(); i++) {
                         PrintWriter out2 = new PrintWriter(fleet.get(i).vanName + ".txt");
                         for (int j = 0; j < fleet.get(i).getVanInv().size(); j++) {
