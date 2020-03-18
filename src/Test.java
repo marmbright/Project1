@@ -347,6 +347,8 @@ public class Test {
                             }
                         }
                         van2.setVanInv(  van1.vanInv);
+                        van1.vanInv=null;
+                        System.out.println("All of the inventory has been moved.");
 
                     }
                     else{
