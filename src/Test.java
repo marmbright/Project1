@@ -125,7 +125,7 @@ public class Test {
                             fleetIndex = i;
                         }
                     }
-                    if (warehouseInput.equalsIgnoreCase("warehouseDB.txt")){
+                    if (warehouseInput.equalsIgnoreCase("warehouseDB")){
                         sellList = list;
                     } else if (isInVanArray) {
                         sellList = fleet.get(fleetIndex).vanInv;
@@ -229,9 +229,7 @@ public class Test {
                     String transFile = in.next();
                     File move = new File(transFile);
 
-                    for(int i = 0; i < move.length(); i ++){
 
-                    }
 
                     //Quit
                 } else if (user_input.equalsIgnoreCase("Quit")) {
