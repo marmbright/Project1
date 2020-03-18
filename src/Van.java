@@ -16,6 +16,7 @@ public class Van {
         this.vanName = name;
         this.vanInv = vanInv;
     }
+
     public Van(){
         this.vanName="placeholder";
         this.vanInv= new ArrayList<BikePart>(  );
