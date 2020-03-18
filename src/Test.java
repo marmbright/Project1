@@ -452,9 +452,6 @@ public class Test {
             Van tempVan = new Van(vanName, vanInv);
             fleet.add(tempVan);
         }
-
-
-
     }
 
     /**
