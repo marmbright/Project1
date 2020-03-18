@@ -27,40 +27,40 @@ public class Test {
             //Program tasks
             boolean quitFlag = false;
             while (!quitFlag) {
-                System.out.println("What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
+                System.out.println( "What would you like to do?: \nRead File | Enter BikePart | Sell BikePart\n" +
                         "Display BikePart | Sort By Name | Sort By Number\n" +
-                        "Quit | Add Van To Fleet | Warehouse Transfer");
+                        "Quit | Add Van To Fleet | Warehouse Transfer" );
                 String user_input = in.nextLine();
 
                 //Read File
-                if (user_input.equalsIgnoreCase("Read File")) {
+                if (user_input.equalsIgnoreCase( "Read File" )) {
                     boolean flag = true;
                     while (flag) {
-                        System.out.println("Please enter your inventory file name: ");
+                        System.out.println( "Please enter your inventory file name: " );
 
                         String invFileName = in.nextLine();
-                        File file = new File(invFileName);
+                        File file = new File( invFileName );
 
                         if (file.exists()) {
 
-                            updateBikeArray(invFileName, list);
+                            updateBikeArray( invFileName, list );
 
-                            System.out.println(invFileName + " successfully processed\n");
+                            System.out.println( invFileName + " successfully processed\n" );
 
                             flag = false;
-                        } else if (invFileName.equalsIgnoreCase("Return")) {
+                        } else if (invFileName.equalsIgnoreCase( "Return" )) {
                             flag = false;
                         } else {
-                            System.out.println("File not found. Type 'Return' to go back to the menu");
+                            System.out.println( "File not found. Type 'Return' to go back to the menu" );
                         }
                     }
                     //Enter BikePart
-                } else if (user_input.equalsIgnoreCase("Enter BikePart")) {
-                    System.out.println("Available inventories: \nwarehouseDB");
+                } else if (user_input.equalsIgnoreCase( "Enter BikePart" )) {
+                    System.out.println( "Available inventories: \nwarehouseDB" );
                     for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).vanName);
+                        System.out.println( fleet.get( i ).vanName );
                     }
-                    System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
+                    System.out.println( "\nPlease enter the warehouse you wish to sell a bikepart from: " );
                     String warehouseInput = in.nextLine();
 
                     ArrayList<BikePart> sellList = new ArrayList<>();
@@ -69,73 +69,73 @@ public class Test {
 
                     for (int i = 0; i < fleet.size(); i++) {
 
-                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)) {
+                        if (warehouseInput.equalsIgnoreCase( fleet.get( i ).vanName )) {
                             isInVanArray = true;
                             fleetIndex = i;
                         }
                     }
-                    if (warehouseInput.equalsIgnoreCase("warehouseDB")) {
+                    if (warehouseInput.equalsIgnoreCase( "warehouseDB" )) {
                         sellList = list;
                     } else if (isInVanArray) {
-                        sellList = fleet.get(fleetIndex).vanInv;
+                        sellList = fleet.get( fleetIndex ).vanInv;
                     } else {
-                        System.out.println("Please select a valid warehouse inventory.");
+                        System.out.println( "Please select a valid warehouse inventory." );
                     }
-                    System.out.println("Please enter your bike part's attributes: ");
+                    System.out.println( "Please enter your bike part's attributes: " );
 
-                    System.out.println("Name: ");
+                    System.out.println( "Name: " );
                     String enterName = in.nextLine();
-                    System.out.println("Number: ");
+                    System.out.println( "Number: " );
                     String enterNumber = in.nextLine();
-                    System.out.println("Price: ");
+                    System.out.println( "Price: " );
                     double enterPrice = in.nextDouble();
-                    System.out.println("Sales Price: ");
+                    System.out.println( "Sales Price: " );
                     double enterSalesPrice = in.nextDouble();
-                    System.out.println("Is it on sale? (Enter 'true' or 'false'): ");
+                    System.out.println( "Is it on sale? (Enter 'true' or 'false'): " );
                     boolean enterOnSale = in.nextBoolean();
-                    System.out.println("Quantity: ");
+                    System.out.println( "Quantity: " );
                     int enterQuantity = in.nextInt();
 
-                    BikePart tempPart = new BikePart(enterName,
+                    BikePart tempPart = new BikePart( enterName,
                             enterNumber,
                             enterPrice,
                             enterSalesPrice,
                             enterOnSale,
-                            enterQuantity);
+                            enterQuantity );
 
                     boolean doesExist = false;
                     for (int i = 0; i < sellList.size(); i++) {
-                        BikePart temp = sellList.get(i);
-                        if (temp.partNumber.equals(tempPart.partNumber)) {
+                        BikePart temp = sellList.get( i );
+                        if (temp.partNumber.equals( tempPart.partNumber )) {
                             temp.quantity += tempPart.quantity;
                             temp.price = tempPart.price;
                             temp.salesPrice = tempPart.salesPrice;
                             temp.onSale = tempPart.onSale;
                             temp.partName = tempPart.partName;
-                            sellList.set(i, temp);
+                            sellList.set( i, temp );
                             doesExist = true;
                         }
                     }
                     if (!doesExist) {
-                        sellList.add(tempPart);
+                        sellList.add( tempPart );
                         doesExist = true;
                     }
-                    System.out.println("BikePart successfully added\n");
+                    System.out.println( "BikePart successfully added\n" );
                     in.nextLine();
 
                     //Sell BikePart
-                } else if (user_input.equalsIgnoreCase("Sell BikePart")) {
-                    System.out.println("Available inventories: \nwarehouseDB");
+                } else if (user_input.equalsIgnoreCase( "Sell BikePart" )) {
+                    System.out.println( "Available inventories: \nwarehouseDB" );
                     for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).vanName);
+                        System.out.println( fleet.get( i ).vanName );
                     }
-                    System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
+                    System.out.println( "\nPlease enter the warehouse you wish to sell a bikepart from: " );
                     String warehouseInput = in.nextLine();
 
-                    System.out.println("Please enter bike part number: ");
+                    System.out.println( "Please enter bike part number: " );
                     String enterNumber = in.nextLine();
 
-                    System.out.println("Please enter the amount to sell: ");
+                    System.out.println( "Please enter the amount to sell: " );
                     int enterSellQuantity = in.nextInt();
 
 
@@ -145,21 +145,21 @@ public class Test {
 
                     for (int i = 0; i < fleet.size(); i++) {
 
-                        if (warehouseInput.equalsIgnoreCase(fleet.get(i).vanName)) {
+                        if (warehouseInput.equalsIgnoreCase( fleet.get( i ).vanName )) {
                             isInVanArray = true;
                             fleetIndex = i;
                         }
                     }
-                    if (warehouseInput.equalsIgnoreCase("warehouseDB")) {
+                    if (warehouseInput.equalsIgnoreCase( "warehouseDB" )) {
                         sellList = list;
                     } else if (isInVanArray) {
-                        sellList = fleet.get(fleetIndex).vanInv;
+                        sellList = fleet.get( fleetIndex ).vanInv;
                     } else {
-                        System.out.println("Please select a valid warehouse inventory.");
+                        System.out.println( "Please select a valid warehouse inventory." );
                     }
                     boolean isValidAmount = true;
                     if (enterSellQuantity < 0) {
-                        System.out.println("Please enter an amount over zero.");
+                        System.out.println( "Please enter an amount over zero." );
                         isValidAmount = false;
                     }
                     if (isValidAmount) {
@@ -169,9 +169,9 @@ public class Test {
                         boolean hasEnoughToSell = false;
                         int currentQuantity = 0;
                         for (int i = 0; i < sellList.size(); i++) {
-                            BikePart temp = sellList.get(i);
+                            BikePart temp = sellList.get( i );
 
-                            if (temp.partNumber.equals(enterNumber)) {
+                            if (temp.partNumber.equals( enterNumber )) {
                                 doesExist = true;
                                 bikePartID = i;
                                 currentQuantity = temp.quantity;
@@ -182,23 +182,23 @@ public class Test {
 
                         }
                         if (!doesExist) {
-                            System.out.println("The bike part you're trying to sell does not exist.");
+                            System.out.println( "The bike part you're trying to sell does not exist." );
                         } else {
                             if (!hasEnoughToSell) {
-                                System.out.println("Not enough units available to complete the sale." +
-                                        " There is currently " + currentQuantity + " unit(s) in stock.\n");
+                                System.out.println( "Not enough units available to complete the sale." +
+                                        " There is currently " + currentQuantity + " unit(s) in stock.\n" );
                             } else {
-                                sellList.get(bikePartID).quantity -= enterSellQuantity;
-                                if (sellList.get(bikePartID).onSale) {
-                                    System.out.println(sellList.get(bikePartID).partName + "," +
-                                            sellList.get(bikePartID).salesPrice);
+                                sellList.get( bikePartID ).quantity -= enterSellQuantity;
+                                if (sellList.get( bikePartID ).onSale) {
+                                    System.out.println( sellList.get( bikePartID ).partName + "," +
+                                            sellList.get( bikePartID ).salesPrice );
                                 } else {
-                                    System.out.println(sellList.get(bikePartID).partName + "," +
-                                            sellList.get(bikePartID).price);
+                                    System.out.println( sellList.get( bikePartID ).partName + "," +
+                                            sellList.get( bikePartID ).price );
                                 }
-                                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                                SimpleDateFormat formatter = new SimpleDateFormat( "MM/dd/yyyy HH:mm:ss" );
                                 Date date = new Date();
-                                System.out.println(formatter.format(date));
+                                System.out.println( formatter.format( date ) );
                                 System.out.println();
                             }
 
@@ -207,61 +207,61 @@ public class Test {
                     in.nextLine();
 
                     //Display BikePart
-                } else if (user_input.equalsIgnoreCase("Display BikePart")) {
-                    System.out.println("Please enter bike part name: ");
+                } else if (user_input.equalsIgnoreCase( "Display BikePart" )) {
+                    System.out.println( "Please enter bike part name: " );
                     String enterName = in.nextLine();
 
                     for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get(i);
+                        BikePart temp = list.get( i );
 
-                        if (temp.partName.equals(enterName)) {
+                        if (temp.partName.equals( enterName )) {
                             if (temp.onSale) {
-                                System.out.println("\nPart name: " + temp.partName + "\n" +
-                                        "Current price: " + temp.salesPrice + "\n");
+                                System.out.println( "\nPart name: " + temp.partName + "\n" +
+                                        "Current price: " + temp.salesPrice + "\n" );
                             } else {
-                                System.out.println("\nPart name: " + temp.partName + "\n" +
-                                        "Current price: " + temp.price + "\n");
+                                System.out.println( "\nPart name: " + temp.partName + "\n" +
+                                        "Current price: " + temp.price + "\n" );
                             }
                         }
                     }
 
                     //Sort By Name
-                } else if (user_input.equalsIgnoreCase("Sort By Name")) {
-                    System.out.println("Which list would you like to sort?");
+                } else if (user_input.equalsIgnoreCase( "Sort By Name" )) {
+                    for (Van item : fleet) {
+                        System.out.println(item.vanName);
+                    }
+                    System.out.println("Warehouse");
+                    System.out.println( "Which list would you like to sort?" );
                     String whichList = in.nextLine();
-                    if (whichList.equalsIgnoreCase( "van" )){
-                        System.out.println("Which Van?");
-                        String van= in.nextLine();
-                        for (Van item: fleet) {
-                            if (van.equalsIgnoreCase( item.vanName )){
-                                sortName( item.vanInv );
-                            } else {
-                                System.out.println("This van doesn't exist.");
-                            }
-
-                        }
-                    }else  {
+                    for (Van item : fleet) {
+                    if (whichList.equalsIgnoreCase( item.vanName )) {
+                        sortName( item.vanInv );
+                    } else if(whichList.equalsIgnoreCase( "warehouse" )){
                         sortName( list );
+                    }
+                    else {
+                        System.out.println( "This list doesn't exist." );
+                    }
                     }
 
 
                     //Sort By Number
                 } else if (user_input.equalsIgnoreCase("Sort By Number")) {
-                    System.out.println("Which list would you like to sort?");
+                    for (Van item : fleet) {
+                        System.out.println(item.vanName);
+                    }
+                    System.out.println("Warehouse");
+                    System.out.println( "Which list would you like to sort?" );
                     String whichList = in.nextLine();
-                    if (whichList.equalsIgnoreCase( "van" )){
-                        System.out.println("Which Van?");
-                        String van= in.nextLine();
-                        for (Van item: fleet) {
-                            if (van.equalsIgnoreCase( item.vanName )){
-                                sortNum( item.vanInv );
-                            } else {
-                                System.out.println("This van doesn't exist.");
-                            }
-
+                    for (Van item : fleet) {
+                        if (whichList.equalsIgnoreCase( item.vanName )) {
+                            sortNum( item.vanInv );
+                        } else if(whichList.equalsIgnoreCase( "warehouse" )){
+                            sortNum( list );
                         }
-                    }else  {
-                        sortNum( list );
+                        else {
+                            System.out.println( "This list doesn't exist." );
+                        }
                     }
                     //Add Van To Fleet
                 } else if (user_input.equalsIgnoreCase("Add Van To Fleet")) {
