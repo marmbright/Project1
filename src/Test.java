@@ -60,7 +60,7 @@ public class Test {
                     for (int i = 0; i < fleet.size(); i++) {
                         System.out.println(fleet.get(i).vanName);
                     }
-                    System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
+                    System.out.println("\nPlease enter the warehouse you wish to enter a bikepart from: ");
                     String warehouseInput = in.nextLine();
 
                     ArrayList<BikePart> sellList = new ArrayList<>();
@@ -204,7 +204,6 @@ public class Test {
 
                         }
                     }
-                    in.nextLine();
 
                     //Display BikePart
                 } else if (user_input.equalsIgnoreCase("Display BikePart")) {
@@ -277,23 +276,38 @@ public class Test {
                     System.out.println("warehouseDB.txt file successfully processed");
 
                     // Warehouse Transfer
+                    // This program reads in a file whose first line first starts with the original warehouse and is
+                    // then followed by the destination warehouse (separated by a comma. ie "Van1,Van2")
+                    // The program then reads the remaining lines of the given file as inventory to be moved from the
+                    // origin to the destination
+                    // This action subtracts item amounts from the origin and adds or appends items to the destination
                 } else if (user_input.equalsIgnoreCase("Warehouse Transfer")) {
+                    //This code is searching for the transfer file at hand and saving each line as an element
+                    //in a String ArrayList
                     System.out.println("Please enter the name of the transfer file:");
                     String filename = in.nextLine();
                     File file = new File(filename);
+                    Scanner input = new Scanner(file);
                     if (file.exists() == false) {
                         System.out.println("File not found. Type 'Return' to go back to the menu.");
                     } else {
                         ArrayList<String> fileLines = new ArrayList<>();
-                        while (in.hasNextLine()) {
-                            fileLines.add(in.nextLine());
+                        while (input.hasNextLine()) {
+                            System.out.print("test3");
+                            fileLines.add(input.nextLine());
+                            System.out.println("test4");
                         }
+                        System.out.println("test5");
+                        //The code is identifying the file that is having its inventory taken out as 'fileFrom'
+                        //The code is identifying the file that is having its inventory given as 'fileTo'
                         String fileFrom = fileLines.get(0).split(",")[0];
                         String fileTo = fileLines.get(0).split(",")[0];
 
+                        //The code is converting the bikepart inventory from text to BikePart Array for both files
                         ArrayList<BikePart> fileFromList = new ArrayList<>();
                         ArrayList<BikePart> fileToList = new ArrayList<>();
 
+                        /// Code identifying files
                         boolean fileFromInVanArray = false;
                         boolean fileToInVanArray = false;
                         int fileFromFleetIndex = 0;
@@ -320,13 +334,104 @@ public class Test {
                                 System.out.println("Please select valid warehouse inventories.");
                             }
                         }
-                        //ArrayList<BikePart> invFrom =
+
+                        //The code is converting text to Bikeparts elements in a String ArrayList
+                        ArrayList<String> transferList = new ArrayList<>();
+                        for (int i = 1; i < fileLines.size(); i++) {
+                            transferList.add(fileLines.get(i));
+
+                        }
+
+                        //The code is now looking at each bikepart to be transferred to see if they can be successfully
+                        // transferred from the origin
+                        for (int i = 0; i < transferList.size(); i++) {
+                            String transferName = transferList.get(i).split(",")[0];
+                            int transferAmount = Integer.parseInt(transferList.get(i).split(",")[1]);
+                            String transferNumber = "";
+                            double transferPrice = 0.0;
+                            double transferSalesPrice = 0.0;
+                            boolean transferOnSale = false;
 
 
+                            boolean isValidAmount = true;
+                            if ( transferAmount < 0) {
+                                System.out.println("Please enter an amount over or equal to zero for " +
+                                        transferName + ".");
+                                isValidAmount = false;
+                            }
+                            if (isValidAmount) {
+                                //checks to see if the part at hand exists in the origin and if there is enough of it
+                                // to be transferred
+                                int bikePartID = 0; //This is a placeholder for the when we find the part, if it exits
+                                boolean doesExistInOrigin = false; //^
+                                boolean hasEnoughToSell = false; //^
+                                int currentQuantity = 0; //^
+                                //checks to see if the parts at hand exists in the origin and if there is enough of it
+                                // to be transferred
+                                for (int j = 0; j < fileFromList.size(); j++) {
+                                    BikePart temp = fileFromList.get(i);
+
+                                    if (temp.partName.equals(transferName)) {
+                                        doesExistInOrigin = true;
+                                        bikePartID = j;
+                                        currentQuantity = temp.quantity;
+                                        transferNumber = temp.partNumber;
+                                        transferOnSale = temp.onSale;
+                                        transferPrice = temp.price;
+                                        transferSalesPrice = temp.salesPrice;
+                                        if (temp.quantity - transferAmount >= 0) {
+                                            hasEnoughToSell = true;
+                                        }
+                                    }
+
+                                }
+                                //The code deducts the amount of the item to be transferred from the origin
+                                if (doesExistInOrigin & hasEnoughToSell) {
+                                    fileFromList.get(bikePartID).quantity -= transferAmount;
+
+                                }
+                                // The code returns an error message if the bikepart's amount in the origin isn't
+                                // enough to fufill the transfer request. The code cancels the transfer of the item.
+                                else if (!hasEnoughToSell){
+                                    System.out.println("There is not enough of bikepart: " +
+                                            transferName + " to be taken out of the original warehouse inventory." +
+                                            " Transfer of item has been canceled.");
+                                }
+
+                                // The code is now putting the bikepart into the destination. If the bikepart exists,
+                                // the amount is added. If the bikepart doesn't exist, the information of the bikepart
+                                // is transferred from the origin to the destination except the amount is equal to the
+                                // transfer amount.
+                                if (doesExistInOrigin & hasEnoughToSell) {
+                                    BikePart tempPart = new BikePart(transferName,
+                                            transferNumber,
+                                            transferPrice,
+                                            transferSalesPrice,
+                                            transferOnSale,
+                                            transferAmount);
+                                    boolean doesExistInDest = false;
+                                    for (int l = 0; l < fileToList.size(); l++) {
+                                        BikePart temp = fileToList.get(l);
+                                        if (temp.partName.equals(transferName)) {
+                                            temp.quantity += transferAmount;
+                                            temp.price = transferPrice;
+                                            temp.salesPrice = transferSalesPrice;
+                                            temp.onSale = transferOnSale;
+                                            temp.partNumber = transferNumber;
+                                            fileToList.set(l, temp);
+                                            doesExistInDest = true;
+                                        }
+                                    }
+                                    if (!doesExistInDest) {
+                                        fileToList.add(tempPart);
+                                        doesExistInDest = true;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-
         } catch (FileNotFoundException e) {
             System.out.println("File given isn't found.");
         } catch (IllegalArgumentException E) {
