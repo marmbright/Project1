@@ -1,4 +1,6 @@
-
+/*
+Megan Armbright, Chris Jesus, And Alex Grondin
+ */
 
 import java.io.*;
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ public class Test {
                     //Enter BikePart
                 } else if (user_input.equalsIgnoreCase("Enter BikePart")) {
                     System.out.println("Available inventories: \nwarehouseDB");
-                    for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).vanName);
+                    for (Van van : fleet) {
+                        System.out.println(van.vanName);
                     }
                     System.out.println("\nPlease enter the warehouse you wish to enter a bikepart from: ");
                     String warehouseInput = in.nextLine();
@@ -128,8 +130,8 @@ public class Test {
                     //Sell BikePart
                 } else if (user_input.equalsIgnoreCase("Sell BikePart")) {
                     System.out.println("Available inventories: \nwarehouseDB");
-                    for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).vanName);
+                    for (Van van : fleet) {
+                        System.out.println(van.vanName);
                     }
                     System.out.println("\nPlease enter the warehouse you wish to sell a bikepart from: ");
                     String warehouseInput = in.nextLine();
@@ -212,9 +214,7 @@ public class Test {
                     System.out.println("Please enter bike part name: ");
                     String enterName = in.nextLine();
 
-                    for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get(i);
-
+                    for (BikePart temp : list) {
                         if (temp.partName.equals(enterName)) {
                             if (temp.onSale) {
                                 System.out.println("\nPart name: " + temp.partName + "\n" +
@@ -228,13 +228,15 @@ public class Test {
 
                     //Sort By Name
                 } else if (user_input.equalsIgnoreCase("Sort By Name")) {
-                    for (Van item: fleet) {
-                        System.out.println(item.vanName);
-                    }
+
                     System.out.println("Main Warehouse");
+                    System.out.println("Van");
                     System.out.println("Which list would you like to sort?");
                     String whichList = in.nextLine();
                     if (whichList.equalsIgnoreCase( "van" )){
+                        for (Van item: fleet) {
+                            System.out.println(item.vanName);
+                        }
                         System.out.println("Which Van?");
                         String van= in.nextLine();
                         for (Van item: fleet) {
@@ -251,13 +253,15 @@ public class Test {
 
                     //Sort By Number
                 } else if (user_input.equalsIgnoreCase("Sort By Number")) {
-                    for (Van item: fleet) {
-                        System.out.println(item.vanName);
-                    }
+
                     System.out.println("Main Warehouse");
+                    System.out.println("Van");
                     System.out.println("Which list would you like to sort?");
                     String whichList = in.nextLine();
                     if (whichList.equalsIgnoreCase( "van" )){
+                        for (Van item: fleet) {
+                            System.out.println(item.vanName);
+                        }
                         System.out.println("Which Van?");
                         String van= in.nextLine();
                         for (Van item: fleet) {
@@ -266,7 +270,6 @@ public class Test {
                             } else {
                                 System.out.println("This van doesn't exist.");
                             }
-
                         }
                     }else  {
                         sortNum( list );
@@ -277,21 +280,20 @@ public class Test {
                     System.out.println("Enter van name: ");
                     ArrayList<BikePart> emptyVanInv = new ArrayList<>();
                     Van vanToAdd = new Van(in.nextLine(), emptyVanInv);
-                    for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).getVanName());
+                    for (Van value : fleet) {
+                        System.out.println(value.getVanName());
                     }
                     System.out.println();
                     addVanToFleet(vanToAdd, fleet);
-                    for (int i = 0; i < fleet.size(); i++) {
-                        System.out.println(fleet.get(i).getVanName());
+                    for (Van van : fleet) {
+                        System.out.println(van.getVanName());
                     }
 
                     //Quit
                 } else if (user_input.equalsIgnoreCase("Quit")) {
                     quitFlag = true;
                     PrintWriter out = new PrintWriter("warehouseDB.txt");
-                    for (int i = 0; i < list.size(); i++) {
-                        BikePart temp = list.get(i);
+                    for (BikePart temp : list) {
                         out.println(temp.partName + "," +
                                 temp.partNumber + "," +
                                 temp.price + "," +
@@ -301,14 +303,14 @@ public class Test {
                     }
                     out.close();
                     PrintWriter fleetWriter = new PrintWriter("Fleet.txt");
-                    for (int i = 0; i < fleet.size(); i++) {
-                        fleetWriter.println(fleet.get(i).getVanName());
+                    for (Van value : fleet) {
+                        fleetWriter.println(value.getVanName());
                     }
                     fleetWriter.close();
-                    for (int i = 0; i < fleet.size(); i++) {
-                        PrintWriter out2 = new PrintWriter(fleet.get(i).vanName + ".txt");
-                        for (int j = 0; j < fleet.get(i).getVanInv().size(); j++) {
-                            BikePart temp = fleet.get(i).getVanInv().get(j);
+                    for (Van van : fleet) {
+                        PrintWriter out2 = new PrintWriter(van.vanName + ".txt");
+                        for (int j = 0; j < van.getVanInv().size(); j++) {
+                            BikePart temp = van.getVanInv().get(j);
                             out2.println(temp.partName + "," +
                                     temp.partNumber + "," +
                                     temp.price + "," +
@@ -358,7 +360,7 @@ public class Test {
                         String filename = in.nextLine();
                         File file = new File(filename);
                         Scanner input = new Scanner(file);
-                        if (file.exists() == false) {
+                        if (!file.exists()) {
                             System.out.println("File not found. Type 'Return' to go back to the menu.");
                         } else {
                             ArrayList<String> fileLines = new ArrayList<>();
@@ -426,11 +428,11 @@ public class Test {
 
                             //The code is now looking at each bikepart to be transferred to see if they can be successfully
                             // transferred from the origin
-                            for (int i = 0; i < transferList.size(); i++) {
-                                String transferName = transferList.get( i ).split( "," )[0];
-                                int transferAmount = Integer.parseInt( transferList.get( i ).split( "," )[1] );
-                                System.out.println( transferName );
-                                System.out.println( transferAmount );
+                            for (String s : transferList) {
+                                String transferName = s.split(",")[0];
+                                int transferAmount = Integer.parseInt(s.split(",")[1]);
+                                System.out.println(transferName);
+                                System.out.println(transferAmount);
                                 String transferNumber = "";
                                 double transferPrice = 0.0;
                                 double transferSalesPrice = 0.0;
@@ -439,8 +441,8 @@ public class Test {
 
                                 boolean isValidAmount = true;
                                 if (transferAmount < 0) {
-                                    System.out.println( "Please enter an amount over or equal to zero for " +
-                                            transferName + ". The transfer of this bike part has been canceled." );
+                                    System.out.println("Please enter an amount over or equal to zero for " +
+                                            transferName + ". The transfer of this bike part has been canceled.");
                                     isValidAmount = false;
                                 }
                                 if (isValidAmount) {
@@ -452,9 +454,9 @@ public class Test {
                                     //checks to see if the parts at hand exists in the origin and if there is enough of it
                                     // to be transferred
                                     for (int j = 0; j < fileFromList.size(); j++) {
-                                        BikePart temp = fileFromList.get( j );
+                                        BikePart temp = fileFromList.get(j);
 
-                                        if (temp.partName.equals( transferName )) {
+                                        if (temp.partName.equals(transferName)) {
                                             doesExistInOrigin = true;
                                             bikePartID = j;
                                             transferNumber = temp.partNumber;
@@ -469,45 +471,45 @@ public class Test {
                                     }
                                     //The code deducts the amount of the item to be transferred from the origin
                                     if (doesExistInOrigin & hasEnoughToSell) {
-                                        System.out.println( fileFromList.get( bikePartID ).partName + " deducted." );
-                                        fileFromList.get( bikePartID ).quantity -= transferAmount;
+                                        System.out.println(fileFromList.get(bikePartID).partName + " deducted.");
+                                        fileFromList.get(bikePartID).quantity -= transferAmount;
 
                                         // The code is now putting the bikepart into the destination. If the bikepart exists,
                                         // the amount is added. If the bikepart doesn't exist, the information of the bikepart
                                         // is transferred from the origin to the destination except the amount is equal to the
                                         // transfer amount.
-                                        BikePart tempPart = new BikePart( transferName,
+                                        BikePart tempPart = new BikePart(transferName,
                                                 transferNumber,
                                                 transferPrice,
                                                 transferSalesPrice,
                                                 transferOnSale,
-                                                transferAmount );
+                                                transferAmount);
                                         boolean doesExistInDest = false;
                                         for (int l = 0; l < fileToList.size(); l++) {
-                                            BikePart temp = fileToList.get( l );
+                                            BikePart temp = fileToList.get(l);
                                             // If the bikepart already exists in the destination, the code updates the
                                             // information based on what the bikepart looks like in the origin. The amount
                                             // of the bikepart in the destination is added to.
-                                            if (temp.partName.equals( transferName )) {
+                                            if (temp.partName.equals(transferName)) {
                                                 temp.quantity += transferAmount;
                                                 temp.price = transferPrice;
                                                 temp.salesPrice = transferSalesPrice;
                                                 temp.onSale = transferOnSale;
                                                 temp.partNumber = transferNumber;
-                                                fileToList.set( l, temp );
+                                                fileToList.set(l, temp);
                                                 doesExistInDest = true;
                                             }
                                         }
                                         if (!doesExistInDest) {
-                                            fileToList.add( tempPart );
+                                            fileToList.add(tempPart);
                                         }
                                     }
                                     // The code returns an error message if the bikepart's amount in the origin isn't
                                     // enough to fulfil the transfer request. The code cancels the transfer of the item.
                                     if (doesExistInOrigin & !hasEnoughToSell) {
-                                        System.out.println( "There is not enough of bikepart: " +
+                                        System.out.println("There is not enough of bikepart: " +
                                                 transferName + " to be taken out of the original warehouse inventory." +
-                                                " Transfer of item has been canceled." );
+                                                " Transfer of item has been canceled.");
                                     }
                                 }
                             }
@@ -569,25 +571,21 @@ public class Test {
 
         // If there are no elements in the warehouse, we simply add each element in the invArray to the warehouseArray
         if (isEmpty){
-            for (int i = 0; i < invArray.size(); i++){
-                warehouseArray.add(invArray.get(i));
-            }
+            warehouseArray.addAll(invArray);
         } else {
             // If there are elements in the warehouse:
             // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
 
             // Select each item in our inventory class that we're comparing with each item in the existing array
-            for (int i = 0; i < invArray.size(); i++) {
+            for (BikePart invBikePart : invArray) {
                 //because the first element starts at 0, the last item is at 'n'. So, we should
                 //stop looping when we end with index 'n'. We do this by setting our condition
                 //to have 'i' be less than the size of the Array which is equal to n+1
                 // We set up a temporary bikepart object of the inventory bikepart we're looking at so we can compare it so that of each warehouse bikepart
-                BikePart invBikePart = invArray.get(i);
                 // We're going to set this boolean so that if this BikePart doesn't already exist, we can just add it later
                 boolean doesExist = false;
-                for (int j = 0; j < warehouseArray.size(); j++) {
+                for (BikePart wareBikePart : warehouseArray) {
                     // We set up a temporary bikepart object of the warehouse bikepart we're looking at so we can compare it to the inventory bikepart at hand
-                    BikePart wareBikePart = warehouseArray.get(j);
                     // We compare the inventory BikePart with the warehouse BikePart
                     if (wareBikePart.partNumber.equals(invBikePart.partNumber)) {
                         doesExist = true;
@@ -603,14 +601,10 @@ public class Test {
                     elementsToAdd.add(invBikePart);
 
                 }
-
-
             }
         }
         // This is where we add the new BikeParts that we didn't add in the moment
-        for (int i = 0; i < elementsToAdd.size(); i++) {
-            warehouseArray.add(elementsToAdd.get(i));
-        }
+        warehouseArray.addAll(elementsToAdd);
     }
 
     /**
@@ -641,9 +635,8 @@ public class Test {
             fleetNames.add(in.nextLine());
         }
 
-        for (int i = 0; i < fleetNames.size(); i++){
-            String vanName = fleetNames.get(i);
-            File vanFile = new File(fleetNames.get(i) + ".txt");
+        for (String vanName : fleetNames) {
+            File vanFile = new File(vanName + ".txt");
             Scanner input = new Scanner(vanFile);
             ArrayList<BikePart> vanInv = new ArrayList<>();
             while (input.hasNextLine()) {
@@ -652,9 +645,6 @@ public class Test {
             Van tempVan = new Van(vanName, vanInv);
             fleet.add(tempVan);
         }
-
-
-
     }
 
     /**
@@ -666,13 +656,13 @@ public class Test {
         tempList.sort(new SortByNumber());
 
         System.out.println("Sorting bike parts by their IDs:\n");
-        for (int i= 0; i < tempList.size(); i++){
-            System.out.println(tempList.get(i).partName + ","   +
-                    tempList.get(i).partNumber + "," +
-                    tempList.get(i).price + "," +
-                    tempList.get(i).salesPrice + "," +
-                    tempList.get(i).onSale + "," +
-                    tempList.get(i).quantity );
+        for (BikePart bikePart : tempList) {
+            System.out.println(bikePart.partName + "," +
+                    bikePart.partNumber + "," +
+                    bikePart.price + "," +
+                    bikePart.salesPrice + "," +
+                    bikePart.onSale + "," +
+                    bikePart.quantity);
         }
         System.out.println();
     }
@@ -686,13 +676,13 @@ public class Test {
         tempList.sort(new SortByName());
 
         System.out.println("Sorting bike parts by their names:\n");
-        for (int i= 0; i < tempList.size(); i++){
-            System.out.println(tempList.get(i).partName + ","   +
-                    tempList.get(i).partNumber + "," +
-                    tempList.get(i).price + "," +
-                    tempList.get(i).salesPrice + "," +
-                    tempList.get(i).onSale + "," +
-                    tempList.get(i).quantity );
+        for (BikePart bikePart : tempList) {
+            System.out.println(bikePart.partName + "," +
+                    bikePart.partNumber + "," +
+                    bikePart.price + "," +
+                    bikePart.salesPrice + "," +
+                    bikePart.onSale + "," +
+                    bikePart.quantity);
         }
         System.out.println();
     }
@@ -708,8 +698,8 @@ public class Test {
         boolean isUnique = true;
 
         // This is us checking uniqueness against pre-existing elements within our fleet
-        for (int i = 0; i < fleet.size(); i++) {
-            String fleetVan = fleet.get(i).getVanName();
+        for (Van van : fleet) {
+            String fleetVan = van.getVanName();
             if (vanToAdd.getVanName().equalsIgnoreCase(fleetVan)) {
                 isUnique = false;
             }
@@ -720,95 +710,6 @@ public class Test {
 
         } else {
             System.out.println("The van name you've entered is already being used. Please choose another name.");
-        }
-    }
-    private static void VanToVan(Van VanToEmpty, Van VanToFill) {
-        // We're going to create an array list here that we'll add items to in the future so we can eventually add them to
-        // our Van that is going to be filled. This is done so that we don't add elements in the moment of our query and confuse
-        // its idea of how big the warehouse is
-        ArrayList<BikePart> elementsToAdd = new ArrayList<>();
-
-
-        // We then have a BikePart Array from the pre-existing file that can be empty
-        boolean isEmpty = false;
-        if (VanToFill.vanInv.size() == 0){
-            isEmpty = true;
-        }
-
-        // If there are no elements in the Van to fill, we simply add each element in the invArray to the warehouseArray
-        if (isEmpty){
-            for (int i = 0; i < VanToEmpty.vanInv.size(); i++){
-                VanToFill.vanInv.add(VanToEmpty.vanInv.get(i));
-            }
-        } else {
-            // If there are elements in the warehouse:
-            // We want to compare each item in the inventory BikePart Array to each item in the pre-existing array
-
-            // Select each item in our inventory that we're comparing with each item in the existing array
-            for (int i = 0; i < VanToEmpty.vanInv.size(); i++) {
-                //because the first element starts at 0, the last item is at 'n'. So, we should
-                //stop looping when we end with index 'n'. We do this by setting our condition
-                //to have 'i' be less than the size of the Array
-                // We set up a temporary bikepart object of the Van-to-empty's bikepart we're looking at so we can
-                // compare it so that of each Van-to-fill's bikepart
-                BikePart EmptyBikePart = VanToEmpty.vanInv.get(i);
-                // We're going to set this boolean so that if this BikePart doesn't already exist, we can just add it later
-                boolean doesExist = false;
-                for (int j = 0; j < VanToFill.vanInv.size(); j++) {
-                    // We set up a temporary bikepart object of the Van-to-fill's bikepart we're looking at
-                    // so we can compare it to the Van-to-empty's bikepart at hand
-                    BikePart FillBikePart = VanToFill.vanInv.get(j);
-                    // We compare the Van-to-empty BikePart with the Van-to-fill BikePart
-                    if (FillBikePart.partNumber.equals(EmptyBikePart.partNumber)) {
-                        doesExist = true;
-                        FillBikePart.quantity += EmptyBikePart.quantity;
-                        FillBikePart.price = EmptyBikePart.price;
-                        FillBikePart.salesPrice = EmptyBikePart.salesPrice;
-                        FillBikePart.onSale = EmptyBikePart.onSale;
-                    }
-                }
-                if (!doesExist) {
-                    // This is where we add the new BikePart, that we don't want added in the moment, to the elementsToAdd Array
-                    elementsToAdd.add(EmptyBikePart);
-
-                }
-
-
-            }
-        }
-        // This is where we add the new BikeParts that we didn't add in the moment
-        for (int i = 0; i < elementsToAdd.size(); i++) {
-            VanToFill.vanInv.add(elementsToAdd.get(i));
-        }
-    }
-
-    /*
-    wareVan needs to read in a .txt file supplied by the van. The file should look something like this:
-    warehouseName,vanNam
-    Tires,6
-    coolCatBell,100
-    etc.
-     */
-    private static void wareVan (Van van, ArrayList<BikePart> bikeParts){
-        //how many parts taken by the van then prompt that many times for the part number and how many they want
-        Scanner input=new Scanner( System.in );
-        System.out.println("Enter how many BikeParts the van will be taking: ");
-        int vanNum = input.nextInt();
-
-        for (int i =0; i<vanNum; i++){
-            System.out.println("Enter part number: ");
-            String compNum = input.nextLine();
-            System.out.println("Enter quantity: ");
-            int outNum=input.nextInt();
-
-            for (int j=0; j<outNum;j++){
-                if (compNum.equals( bikeParts.get(j).partNumber )){
-                    BikePart temp=bikeParts.get( j );
-                    bikeParts.get( j ).quantity-=outNum;
-                    temp.quantity=outNum;
-                    van.vanInv.add( temp );
-                }
-            }
         }
     }
 }
